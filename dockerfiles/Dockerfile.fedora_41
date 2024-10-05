@@ -1,16 +1,22 @@
 # Use the Fedora 41 base image
 FROM fedora:41
 
-# Upgrade the system and install sudo
+# Upgrade the system and install sudo and ansible
 RUN dnf --assumeyes upgrade \
-    && dnf --assumeyes install sudo \
-    && dnf clean all
+    && dnf --assumeyes install sudo ansible \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
 
 # Create a user 'test' and add to sudoers with passwordless sudo
 RUN useradd --create-home test \
     && echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Clean up
-RUN dnf clean all \
-    && rm -rf /var/cache/dnf
+# Change container user
+USER test
+
+# Copy forger into the container
+COPY . /home/test/.forger
+
+# Run the playbook inside the container
+RUN ansible-playbook /home/test/.forger/playbooks/localhost.yml
 

@@ -62,7 +62,7 @@ if $VALID_OS; then
     # Message to display while building
     msg="Building image forger_test:${image_tag}:"
 
-    podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR" > /dev/null 2>&1 &
+    podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR/.." > /dev/null 2>&1 &
     pid=$!
     show_spinner "$pid" "$msg"
     wait "$pid"

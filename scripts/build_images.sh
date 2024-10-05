@@ -43,10 +43,10 @@ for dockerfile in "$DOCKERFILES_DIR"/*; do
 
     # Build the image using Podman
     if $VERBOSE; then
-        podman build -t "forger_test:${image_tag}" -f "$dockerfile" "$DOCKERFILES_DIR"
+        podman build -t "forger_test:${image_tag}" -f "$dockerfile" "$DOCKERFILES_DIR/.."
         build_status=$?
     else
-        podman build -t "forger_test:${image_tag}" -f "$dockerfile" "$DOCKERFILES_DIR" > /dev/null 2>&1 &
+        podman build -t "forger_test:${image_tag}" -f "$dockerfile" "$DOCKERFILES_DIR/.." > /dev/null 2>&1 &
         pid=$!
         show_spinner "$pid" "$msg"
         wait "$pid"
