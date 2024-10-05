@@ -1,0 +1,4 @@
+---
+- name: Forge localhost
+  dbg:
+    msg: "Hello while forging localhost"

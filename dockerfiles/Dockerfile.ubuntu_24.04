@@ -1,0 +1,17 @@
+# Use the Ubuntu 24.04 base image
+FROM ubuntu:24.04
+
+# Upgrade the system and install sudo
+RUN apt-get update \
+    && apt-get --yes upgrade \
+    && apt-get --yes install sudo \
+    && apt-get clean
+
+# Create a user 'test' and add to sudoers with passwordless sudo
+RUN useradd --create-home test \
+    && echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# Clean up
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
