@@ -1,7 +1,5 @@
 ---
 - name: "Forge localhost"
   hosts: localhost
-  tasks:
-    - name: Print Hello World
-      debug:
-        msg: "Hello, World!"
+  roles:
+    - system_upgrade

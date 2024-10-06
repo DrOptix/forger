@@ -19,5 +19,6 @@ USER test
 COPY . /home/test/.forger
 
 # Run the playbook inside the container
-RUN ansible-playbook /home/test/.forger/playbooks/localhost.yml
+RUN ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
+    ansible-playbook /home/test/.forger/playbooks/localhost.yml
 
