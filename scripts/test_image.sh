@@ -60,7 +60,7 @@ if $VALID_OS; then
     dockerfile="$DOCKERFILES_DIR/Dockerfile.$IMAGE_TAG"
     
     # Message to display while building
-    msg="Building image forger_test:${image_tag}:"
+    msg="Building image forger_test:${IMAGE_TAG}:"
 
     podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR/.." > /dev/null 2>&1 &
     pid=$!
