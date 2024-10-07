@@ -1,0 +1,7 @@
+---
+- name: Ensure eza is installed
+  become: yes
+  ansible.builtin.package:
+    name: eza
+    state: present
+
