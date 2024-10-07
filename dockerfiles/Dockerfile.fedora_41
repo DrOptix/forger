@@ -3,7 +3,10 @@ FROM fedora:41
 
 # Upgrade the system and install sudo and ansible
 RUN dnf --assumeyes upgrade \
-    && dnf --assumeyes install sudo ansible \
+    && dnf --assumeyes install \
+        sudo \
+        ansible \
+        util-linux \
     && dnf clean all \
     && rm -rf /var/cache/dnf
 
@@ -20,4 +23,7 @@ COPY . /home/test/.forger
 # Run the playbook inside the container
 RUN ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
     ansible-playbook /home/test/.forger/playbooks/localhost.yml
+
+# Set the default shell
+CMD ["fish"]
 

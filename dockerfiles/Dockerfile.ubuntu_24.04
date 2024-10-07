@@ -22,3 +22,6 @@ COPY . /home/test/.forger
 RUN ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
     ansible-playbook /home/test/.forger/playbooks/localhost.yml
 
+# Set the default shell
+CMD ["fish"]
+
