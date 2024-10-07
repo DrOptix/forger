@@ -5,3 +5,21 @@
     name: eza
     state: present
 
+- name: Read existing Fish config
+  ansible.builtin.slurp:
+    src: "{{ ansible_user_id }}/.config/fish/config.fish"
+  register: existing_config
+  ignore_errors: yes
+
+- name: Read `eza` fish config
+  ansible.builtin.slurp:
+    src: "{{ playbook_dir }}/../roles/setup_eza/files/.config/fish/config.fish"
+  register: new_config
+  ignore_errors: yes
+
+- name: Merge Fish configurations
+  ansible.builtin.template:
+    src: merge_fish_config.j2
+    dest: "{{ ansible_user_id }}/.config/fish/config.fish"
+  when: existing_config is defined
+
