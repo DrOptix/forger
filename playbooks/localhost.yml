@@ -3,3 +3,5 @@
   hosts: localhost
   roles:
     - system_upgrade
+    - setup_fish_shell
+
