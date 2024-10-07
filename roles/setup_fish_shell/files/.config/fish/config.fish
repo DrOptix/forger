@@ -1,13 +1,6 @@
-if command -v eza > /dev/null
-    abbr -a l   'eza'
-    abbr -a ls  'eza'
-    abbr -a ll  'eza -lb'
-    abbr -a lla 'eza -lab'
-else
-    abbr -a l 'ls'
-    abbr -a ll 'ls -lh'
-    abbr -a lla 'ls -lah'
-end
+abbr -a l 'ls'
+abbr -a ll 'ls -lh'
+abbr -a lla 'ls -lah'
 
 function fish_prompt
     set_color brblack

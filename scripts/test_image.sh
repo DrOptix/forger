@@ -20,7 +20,7 @@ done
 
 # Check if the first argument is provided
 if [ -z "$1" ]; then
-    echo "Usage: $0 <os_type>"
+    echo "Usage: $0 [-v] <os_type>"
     echo "Available OS types:"
     for os_type in "${OS_TYPES[@]}"; do
         echo " - $os_type"
@@ -28,16 +28,32 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+# Initialize variables
+VERBOSE=false
+IMAGE_TAG=""
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -v)
+            VERBOSE=true
+            shift
+            ;;
+        *)
+            IMAGE_TAG="$1"
+            shift
+            ;;
+    esac
+done
+
 # Check if the provided OS type is valid
 VALID_OS=false
 for os_type in "${OS_TYPES[@]}"; do
-    if [ "$1" == "$os_type" ]; then
+    if [ "$IMAGE_TAG" == "$os_type" ]; then
         VALID_OS=true
         break
     fi
 done
-
-IMAGE_TAG="$1"
 
 # Function to show a spinner
 show_spinner() {
@@ -62,10 +78,15 @@ if $VALID_OS; then
     # Message to display while building
     msg="Building image forger_test:${IMAGE_TAG}:"
 
-    podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR/.." > /dev/null 2>&1 &
-    pid=$!
-    show_spinner "$pid" "$msg"
-    wait "$pid"
+    if $VERBOSE; then
+        podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR/.."
+    else
+        podman build -t "forger_test:$IMAGE_TAG" -f "$dockerfile" "$DOCKERFILES_DIR/.." > /dev/null 2>&1 &
+        pid=$!
+        show_spinner "$pid" "$msg"
+        wait "$pid"
+    fi
+
     build_status=$?
 
     if [[ $build_status -eq 0 ]]; then
@@ -78,7 +99,7 @@ if $VALID_OS; then
     fi
 else
     echo "Invalid OS type: $IMAGE_TAG"
-    echo "Usage: $0 <os_type>"
+    echo "Usage: $0 [-v] <os_type>"
     echo "Available OS types:"
     for os_type in "${OS_TYPES[@]}"; do
         echo " - $os_type"

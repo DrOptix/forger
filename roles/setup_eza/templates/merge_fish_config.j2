@@ -1,0 +1,6 @@
+{% if existing_config.content is defined %}
+    {{ existing_config.content | b64decode }}
+{% endif %}
+
+# `eza` abbreviations
+{{ new_config.content | b64decode }}
