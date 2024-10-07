@@ -1,0 +1,42 @@
+---
+- name: Ensure fish shell is installed
+  become: yes
+  ansible.builtin.package:
+    name: fish
+    state: present
+
+- name: Make sure fish prompt dependencies are installed (RedHat)
+  become: yes
+  ansible.builtin.package:
+    name:
+      - xclip
+      - iproute
+      - hostname
+      - procps-ng
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Make sure fish prompt dependencies are installed (Debian)
+  become: yes
+  ansible.builtin.package:
+    name:
+      - xclip
+      - iproute2
+      - hostname
+      - procps
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Change default shell to fish for test user
+  become: yes
+  ansible.builtin.command:
+    cmd: "/usr/bin/chsh --shell /usr/bin/fish {{ ansible_user_id }}"
+
+- name: Deploy dotfiles to user's home directory
+  ansible.builtin.copy:
+    src: ".config/fish/"
+    dest: "/home/{{ ansible_user_id }}/.config/fish/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: preserve
+
