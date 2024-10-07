@@ -4,4 +4,5 @@
   roles:
     - system_upgrade
     - setup_fish_shell
+    - setup_eza
 
