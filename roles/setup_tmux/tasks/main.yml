@@ -5,3 +5,11 @@
     name: tmux
     state: present
 
+- name: Copy tmux config to  user's home directory
+  ansible.builtin.copy:
+    src: ".config/tmux/"
+    dest: "/home/{{ ansible_user_id }}/.config/tmux/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: preserve
+
