@@ -16,10 +16,9 @@ else
     project_path=$(find "${PROJECT_SEARCH_DIRS[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
-# Exit if the path is not found
+# Exit if no path was chosen
 if [[ -z $project_path ]]; then
-    echo "Project path not found: $project_path"
-    exit 1
+    exit 0
 fi
 
 # If a project contains a `.` in the name we replace it with `_`
