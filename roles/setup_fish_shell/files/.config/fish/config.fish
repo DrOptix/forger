@@ -2,6 +2,11 @@ abbr -a l 'ls'
 abbr -a ll 'ls -lh'
 abbr -a lla 'ls -lah'
 
+# In most cases ~/.local/bin is not added to $PATH
+if not echo $PATH | grep -q ~/.local/bin
+    set -gx PATH ~/.local/bin $PATH
+end
+
 function fish_prompt
     set_color brblack
     echo -n "["(date "+%H:%M")"] "
