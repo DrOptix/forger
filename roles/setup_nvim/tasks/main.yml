@@ -1,0 +1,7 @@
+---
+- name: Ensure Neovim is installed
+  become: yes
+  ansible.builtin.package:
+    name: neovim
+    state: present
+
