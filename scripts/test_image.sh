@@ -92,7 +92,18 @@ if $VALID_OS; then
     if [[ $build_status -eq 0 ]]; then
         echo -e "\r${msg} ${GREEN}OK${NC}"
         echo "Running image forger_test:$IMAGE_TAG"
-        podman run -it --rm "forger_test:$IMAGE_TAG"
+
+        # Allow containers to connect to host X11 display
+	xhost +local:docker > /dev/null 2>&1
+
+        podman run -it \
+            --rm \
+            --env DISPLAY=$DISPLAY \
+            --volume /tmp/.X11-unix:/tmp/.X11-unix \
+            "forger_test:$IMAGE_TAG"
+
+        # Remove container access to host X11 display
+	xhost -local:docker > /dev/null 2>&1
     else
         echo -e "\r${msg} ${RED}FAIL${NC}"
         exit 1
