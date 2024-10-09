@@ -1,8 +1,10 @@
 ---
-- name: Ensure tmux is installed
+- name: Ensure tmux and dependencies are installed
   become: yes
   ansible.builtin.package:
-    name: tmux
+    name:
+      - tmux
+      - xsel
     state: present
 
 - name: Copy tmux config to  user's home directory
