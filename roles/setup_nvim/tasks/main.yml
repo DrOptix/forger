@@ -5,3 +5,11 @@
     name: neovim
     state: present
 
+- name: Deploy neovim config to user's home
+  ansible.builtin.copy:
+    src: ".config/nvim/"
+    dest: "/home/{{ ansible_user_id }}/.config/nvim/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: preserve
+
