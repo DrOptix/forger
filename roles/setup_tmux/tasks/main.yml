@@ -42,7 +42,9 @@
   shell: |
     tmux new-session -d -s setup_tpm
     sleep 1
-    tmux send-keys -t setup_tpm "run-shell /home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh" C-m
+    tmux send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh" C-m
     sleep 1
     tmux kill-session -t setup_tpm
+  args:
+    executable: /bin/bash
 
