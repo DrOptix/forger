@@ -4,8 +4,9 @@
   ansible.builtin.package:
     name:
       - tmux
-      - xsel
-      - fzf
+      - xsel  # For clipboard management
+      - fzf   # For tmux_session_manager.sh
+      - git   # For cloning the plugins
     state: present
 
 - name: Copy tmux config to user's home directory
@@ -16,11 +17,32 @@
     group: "{{ ansible_user_id }}"
     mode: preserve
 
-- name: Deploy tmux_session_manager to ~/.local/bin
+- name: Deploy tmux_session_manager to user's home directory
   ansible.builtin.copy:
     src: ".local/bin/"
     dest: "/home/{{ ansible_user_id }}/.local/bin/"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
+
+- name: Create tmux plugin directory
+  file:
+    path: "/home/{{ ansible_user_id }}/.config/tmux/plugins/"
+    state: directory
+    mode: "0755"
+
+- name: Clone tmux plugin manager (TPM)
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/"
+    version: master
+    update: yes
+
+- name: Start tmux session to install plugins
+  shell: |
+    tmux new-session -d -s setup_tpm
+    sleep 1
+    tmux send-keys -t setup_tpm "run-shell /home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh" C-m
+    sleep 1
+    tmux kill-session -t setup_tpm
 
