@@ -1,3 +1,6 @@
+-- File manager list files as a tree (netrw)
+vim.cmd("let g:netrw_liststyle = 3")
+
 -- Line numbers
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -49,4 +52,3 @@ vim.opt.splitbelow = true
 --     With this active, in "Normal" mode, do "Ctrl+W" and it will delete "aaaa-bbbb"
 --     instead of just "bbb"
 vim.opt.iskeyword:append("-")
-
