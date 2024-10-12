@@ -2,7 +2,9 @@
 - name: Ensure Neovim is installed
   become: yes
   ansible.builtin.package:
-    name: neovim
+    name: 
+      - neovim
+      - git
     state: present
 
 - name: Deploy neovim config to user's home
@@ -13,3 +15,6 @@
     group: "{{ ansible_user_id }}"
     mode: preserve
 
+- name: Install neovim plugins using Lazy.nvim
+  ansible.builtin.command:
+    cmd: nvim --headless +Lazy! sync +qa
