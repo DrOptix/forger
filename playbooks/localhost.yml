@@ -6,4 +6,5 @@
     - setup_fish_shell
     - setup_eza
     - setup_tmux
+    - setup_nvim
 
