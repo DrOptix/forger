@@ -1,5 +1,6 @@
 return {
 	"shaunsingh/nord.nvim",
+	priority = 1000,
 	config = function()
 		local mod_comments_color = "#76A1D7"
 		local mod_comments_style = "italic"
@@ -10,11 +11,11 @@ return {
 		local mod_theme = {}
 
 		-- Customize comments for traditional syntax highlighting
-		mod_theme["Comment"] = { fg = "#76A1D7", style = "italic" }
+		mod_theme["Comment"] = { fg = mod_comments_color, style = mod_comments_style }
 
 		-- Customize comments for Tree-sitter syntax highlighting
-		mod_theme["TSComment"] = { fg = "#76A1D7", style = "italic" }
-		mod_theme["@comment"] = { fg = "#76A1D7", style = "italic" }
+		mod_theme["TSComment"] = { fg = mod_comments_color, style = mod_comments_style }
+		mod_theme["@comment"] = { fg = mod_comments_color, style = mod_comments_style }
 
 		-- Borrowed from: https://github.com/shaunsingh/nord.nvim
 		for group, color in pairs(mod_theme) do
