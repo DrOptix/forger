@@ -14,16 +14,10 @@ RUN dnf --assumeyes upgrade \
 RUN useradd --create-home test \
     && echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Change container user
+# Copy forger into the container
+COPY --chown=test:test . /home/test/.forger
+
+# Change user
 USER test
 
-# Copy forger into the container
-COPY . /home/test/.forger
-
-# Run the playbook inside the container
-RUN ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
-    ansible-playbook /home/test/.forger/playbooks/localhost.yml
-
-# Set the default shell
-CMD ["fish"]
-
+ENTRYPOINT ["/home/test/.forger/dockerfiles/entrypoint.sh"]

@@ -1,0 +1,36 @@
+---
+- name: Deploy .ssh directory to user's home
+  ansible.builtin.copy:
+    src: ".ssh/"
+    dest: "/home/{{ ansible_user_id }}/.ssh"
+
+- name: Ensure ssh keys have 0600 permissions
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: 0600
+  loop:
+    - { path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519" }
+    - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519" }
+
+- name: Ensure public ssh key have 0644 permission
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: 0644
+  loop:
+    - {
+        path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub",
+      }
+    - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub" }
+
+- name: "Set authorized keys"
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    state: present
+    key: "{{ item.key }}"
+  loop:
+    - {
+        key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub') }}",
+      }
+    - {
+        key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub') }}",
+      }
