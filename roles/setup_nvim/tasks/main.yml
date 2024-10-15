@@ -5,7 +5,9 @@
     name: 
       - neovim
       - git    # For lazy.nvim
-      - fzf    # For Telescope
+      - fzf    # For telescope
+      - gcc    # For building telescope-fzf-native
+      - cmake  # For building telescope-fzf-native
     state: present
 
 - name: Deploy neovim config to user's home
