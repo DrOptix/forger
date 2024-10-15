@@ -16,6 +16,7 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
+    backup: yes
 
 - name: Deploy tmux_session_manager to user's home directory
   ansible.builtin.copy:
@@ -24,6 +25,7 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
+    backup: yes
 
 - name: Create tmux plugin directory
   file:
