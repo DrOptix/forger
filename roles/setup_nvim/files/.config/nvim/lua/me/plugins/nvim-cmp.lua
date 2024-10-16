@@ -4,6 +4,8 @@ return {
 	dependencies = {
 		-- Source for text in buffer
 		"hrsh7th/cmp-buffer",
+		-- Source for file paths
+		"hrsh7th/cmp-path",
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -40,6 +42,8 @@ return {
 			sources = cmp.config.sources({
 				-- Text within current buffer
 				{ name = "buffer" },
+				-- File paths
+				{ name = "path", option = { trailing_slash = true, include_hidden = true } },
 			}),
 		})
 	end,
