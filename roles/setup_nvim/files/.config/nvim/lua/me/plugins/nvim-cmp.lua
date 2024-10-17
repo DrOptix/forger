@@ -6,6 +6,8 @@ return {
 		"hrsh7th/cmp-buffer",
 		-- Source for file paths
 		"hrsh7th/cmp-path",
+		-- Source for command line completion
+		"hrsh7th/cmp-cmdline",
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -45,6 +47,21 @@ return {
 				-- File paths
 				{ name = "path", option = { trailing_slash = true, include_hidden = true } },
 			}),
+		})
+
+		-- Setup cmdline completion for `:`
+		cmp.setup.cmdline(":", {
+			sources = {
+				{ name = "cmdline" },
+				{ name = "path" },
+			},
+		})
+
+		-- Setup cmdline completion for `/`
+		cmp.setup.cmdline("/", {
+			sources = {
+				{ name = "buffer" },
+			},
 		})
 	end,
 }
