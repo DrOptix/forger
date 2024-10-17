@@ -20,7 +20,7 @@ return {
 	},
 	config = function()
 		-- Load friendly snippets
-		require("luasnip.loaders.from_vscode").load()
+		require("luasnip/loaders/from_vscode").lazy_load()
 
 		local cmp = require("cmp")
 		cmp.setup({
@@ -68,6 +68,9 @@ return {
 
 				-- Lua snippets
 				{ name = "luasnip" },
+
+				-- LSP
+				{ name = "nvim_lsp" },
 			}),
 		})
 

@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local imports = {
 	{ import = "me.plugins" },
+    { import = "me.plugins.lsp" },
     { import = "me.plugins.themes" },
 }
 
