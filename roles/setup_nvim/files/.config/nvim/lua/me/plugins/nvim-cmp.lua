@@ -2,19 +2,37 @@ return {
 	"hrsh7th/nvim-cmp",
 	event = "InsertEnter",
 	dependencies = {
+		-- Lua snippets
+		"L3MON4D3/LuaSnip",
+		"rafamadriz/friendly-snippets",
+
 		-- Source for text in buffer
 		"hrsh7th/cmp-buffer",
+
 		-- Source for file paths
 		"hrsh7th/cmp-path",
+
 		-- Source for command line completion
 		"hrsh7th/cmp-cmdline",
+
+		-- Lua snippets source
+		"saadparwaiz1/cmp_luasnip",
 	},
 	config = function()
-		local cmp = require("cmp")
+		-- Load friendly snippets
+		require("luasnip.loaders.from_vscode").load()
 
+		local cmp = require("cmp")
 		cmp.setup({
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
+			},
+
+			snippet = {
+				expand = function(args)
+					-- For `luasnip`
+					require("luasnip").lsp_expand(args.body)
+				end,
 			},
 
 			mapping = cmp.mapping.preset.insert({
@@ -44,8 +62,12 @@ return {
 			sources = cmp.config.sources({
 				-- Text within current buffer
 				{ name = "buffer" },
+
 				-- File paths
 				{ name = "path", option = { trailing_slash = true, include_hidden = true } },
+
+				-- Lua snippets
+				{ name = "luasnip" },
 			}),
 		})
 
