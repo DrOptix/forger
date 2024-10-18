@@ -3,8 +3,9 @@
   hosts: localhost
   roles:
     - system_upgrade
-    - setup_ssh
     - setup_fish_shell
+    - setup_ssh
+    - setup_git
     - setup_eza
     - setup_tmux
     - setup_nvim

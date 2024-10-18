@@ -1,0 +1,17 @@
+- name: Ensure `git` and it's dependencies are installed
+  become: yes
+  package:
+    name:
+      - git
+      - neovim
+    state: present
+
+- name: Create Git configuration directory
+  file:
+    path: "/home/{{ ansible_user_id }}/.config/git"
+    state: directory
+
+- name: Deploy git configuration to user's home
+  ansible.builtin.copy:
+    src:  ".config/git/config"
+    dest: "/home/{{ ansible_user_id }}/.config/git/config"
