@@ -2,12 +2,14 @@
 - name: Ensure Neovim is installed
   become: yes
   ansible.builtin.package:
-    name: 
+    name:
       - neovim
-      - git    # For lazy.nvim
-      - fzf    # For telescope
-      - gcc    # For building telescope-fzf-native
-      - cmake  # For building telescope-fzf-native
+      - git # For lazy.nvim
+      - fzf # For telescope
+      - gcc # For building telescope-fzf-native
+      - cmake # For building telescope-fzf-native
+      - dotnet-sdk-8.0 # For omnisharp
+      - unzip # For omnisharp
     state: present
 
 - name: Deploy neovim config to user's home
@@ -21,4 +23,4 @@
 
 - name: Install neovim plugins using Lazy.nvim
   ansible.builtin.command:
-    cmd: nvim --headless +Lazy! sync +qa
+    cmd: nvim --headless -c "Lazy! sync" -c "qa"
