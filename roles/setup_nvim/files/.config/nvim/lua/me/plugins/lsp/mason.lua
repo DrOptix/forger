@@ -22,7 +22,8 @@ return {
 
 			-- List of LSP servers for Mason to install
 			ensure_installed = {
-				"lua_ls",
+				"lua_ls", -- For Lua
+				"omnisharp", -- For C#
 			},
 		})
 	end,

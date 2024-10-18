@@ -8,6 +8,8 @@
       - fzf # For telescope
       - gcc # For building telescope-fzf-native
       - cmake # For building telescope-fzf-native
+      - dotnet-sdk-8.0 # For omnisharp
+      - unzip # For omnisharp
     state: present
 
 - name: Deploy neovim config to user's home

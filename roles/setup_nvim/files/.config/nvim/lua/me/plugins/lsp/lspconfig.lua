@@ -4,7 +4,7 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 
 	dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-nvim-lsp",
 		"williamboman/mason-lspconfig.nvim",
 	},
 
@@ -71,6 +71,26 @@ return {
 							},
 						},
 					},
+				})
+			end,
+
+			-- Configure C#
+			["omnisharp"] = function()
+				local home_dir = os.getenv("HOME")
+                local omnisharp_relative_path = "~/.local/share/nvim/mason/bin/omnisharp"
+
+				-- Replace "~" with the home directory
+				local omnisharp_full_path = home_dir .. omnisharp_relative_path:sub(2)
+
+				lspconfig["omnisharp"].setup({
+					cmd = {
+						omnisharp_full_path,
+						"--languageserver",
+						"--hostPID",
+						tostring(vim.fn.getpid()),
+					},
+					capabilities = capabilities,
+					on_attach = on_attach,
 				})
 			end,
 		})
