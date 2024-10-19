@@ -35,3 +35,27 @@
     - {
         key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub') }}",
       }
+
+- name: Create user systemd directory
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/.config/systemd/user"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0755"
+
+- name: Deploy user ssh-agent systemd service
+  ansible.builtin.copy:
+    src: ".config/systemd/user/ssh-agent.service"
+    dest: "/home/{{ ansible_user_id }}/.config/systemd/user/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0644"
+
+- name: Enable user systemd service
+  ansible.builtin.systemd:
+    name: ssh-agent.service
+    enabled: yes
+    state: started
+  become: yes
+  become_user: "{{ ansible_user_id }}"
