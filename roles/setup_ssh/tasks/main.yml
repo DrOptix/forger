@@ -53,9 +53,8 @@
     mode: "0644"
 
 - name: Enable user systemd service
-  ansible.builtin.systemd:
-    name: ssh-agent.service
-    enabled: yes
-    state: started
-  become: yes
-  become_user: "{{ ansible_user_id }}"
+  ansible.builtin.command:
+    cmd: "{{ item.cmd }}"
+  loop:
+    - { cmd: "systemctl --user enable ssh-agent.service" }
+    - { cmd: "systemctl --user start ssh-agent.service" }
