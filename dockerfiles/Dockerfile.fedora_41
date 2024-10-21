@@ -1,23 +1,22 @@
-# Use the Fedora 41 base image
 FROM fedora:41
 
-# Upgrade the system and install sudo and ansible
 RUN dnf --assumeyes upgrade \
     && dnf --assumeyes install \
-        sudo \
-        ansible \
         util-linux \
+        systemd \
+        ansible \
     && dnf clean all \
-    && rm -rf /var/cache/dnf
+    && rm -rf /var/cache/dnf 
 
-# Create a user 'test' and add to sudoers with passwordless sudo
 RUN useradd --create-home test \
     && echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+COPY ./dockerfiles/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN systemctl mask systemd-firstboot.service systemd-udevd.service systemd-modules-load.service
+RUN systemctl unmask systemd-logind
 
 # Copy forger into the container
 COPY --chown=test:test . /home/test/.forger
 
-# Change user
-USER test
-
-ENTRYPOINT ["/home/test/.forger/dockerfiles/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
