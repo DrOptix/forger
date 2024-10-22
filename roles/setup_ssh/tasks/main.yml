@@ -1,4 +1,12 @@
 ---
+- name: Ensure `which` is installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - which
+      - openssh-clients
+    state: present
+
 - name: Deploy .ssh directory to user's home
   ansible.builtin.copy:
     src: ".ssh/"
@@ -56,5 +64,30 @@
   ansible.builtin.command:
     cmd: "{{ item.cmd }}"
   loop:
+    - { cmd: "systemctl --user daemon-reload" }
     - { cmd: "systemctl --user enable ssh-agent.service" }
     - { cmd: "systemctl --user start ssh-agent.service" }
+
+- name: Check if fish is installed
+  command: which fish
+  register: fish_check
+  ignore_errors: yes
+  changed_when: false
+
+- name: Ensure fish configuration directory exists
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/.config/fish/conf.d"
+    state: directory
+    mode: "0755"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  when: fish_check.rc == 0
+
+- name: Deploy SSH_AUTH_SOCK script for fish
+  ansible.builtin.copy:
+    src: .config/fish/conf.d/set_ssh_auth_sock.fish
+    dest: /home/{{ ansible_user_id }}/.config/fish/conf.d/set_ssh_auth_sock.fish
+    mode: "0644"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+  when: fish_check.rc == 0
