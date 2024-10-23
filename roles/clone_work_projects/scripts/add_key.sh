@@ -1,8 +1,7 @@
 #!/bin/bash
 
-key_name=$1
-key_path="/home/$USER/.ssh/$key_name"
-pass=$(cat "/etc/forger/secrets/$key_name.txt")
+key_path="/home/$USER/.ssh/github_askia_ssh_ed25519"
+pass=$(cat "/etc/forger/secrets/github_askia_ssh_ed25519.txt")
 
 # Run the expect script
 /usr/bin/expect <<EOF

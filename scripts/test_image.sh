@@ -104,7 +104,7 @@ if $VALID_OS; then
             --env ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
             --env ANSIBLE_REMOTE_TEMP=/tmp/ansible \
             --volume /tmp/.X11-unix:/tmp/.X11-unix \
-            --volume $(realpath $SCRIPT_DIR/../secrets):/etc/forger/secrets:z,ro \
+            --volume $(realpath "$FORGER_SECRETS_DIR"):/etc/forger/secrets:z,ro \
             --workdir=/home/test \
             "forger_test:$IMAGE_TAG" \
             sudo -E -H -u test /home/test/.forger/scripts/forge_localhost.sh
