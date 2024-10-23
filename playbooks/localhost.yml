@@ -10,3 +10,4 @@
     - setup_tmux
     - setup_nvim
     - clone_personal_projects
+    - clone_work_projects
