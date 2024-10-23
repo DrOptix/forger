@@ -12,6 +12,9 @@
     autocrlf = input
     safecrlf = true
 
+[alias]
+	clone-worktree = !bash ~/.local/bin/clone_worktree.sh
+
 [merge]
     tool = nvimdiff
 

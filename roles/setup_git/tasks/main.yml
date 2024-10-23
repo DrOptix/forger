@@ -15,3 +15,9 @@
   ansible.builtin.copy:
     src:  ".config/git/config"
     dest: "/home/{{ ansible_user_id }}/.config/git/config"
+
+- name: Deploy clone_worktree.sh to user's home
+  ansible.builtin.copy:
+    src:  ".local/bin/clone_worktree.sh"
+    dest: "/home/{{ ansible_user_id }}/.local/bin/"
+

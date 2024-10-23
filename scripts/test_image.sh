@@ -96,12 +96,18 @@ if $VALID_OS; then
         # Allow containers to connect to host X11 display
 	    xhost +local:docker > /dev/null 2>&1
 
-        podman run -it \
+        podman run \
+            -it \
             --rm \
+            --privileged \
             --env DISPLAY=$DISPLAY \
+            --env ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
+            --env ANSIBLE_REMOTE_TEMP=/tmp/ansible \
             --volume /tmp/.X11-unix:/tmp/.X11-unix \
             --volume $(realpath $SCRIPT_DIR/../secrets):/etc/forger/secrets:z,ro \
-            "forger_test:$IMAGE_TAG"
+            --workdir=/home/test \
+            "forger_test:$IMAGE_TAG" \
+            sudo -E -H -u test /home/test/.forger/scripts/forge_localhost.sh
 
         # Remove container access to host X11 display
 	    xhost -local:docker > /dev/null 2>&1

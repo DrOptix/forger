@@ -1,0 +1,38 @@
+---
+- name: Include encrypted work projects list
+  include_vars: work_projects.yml
+
+- name: Ensure needed tools are installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - expect
+    state: present
+
+- name: Ensure work projects location exists
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/Projects/work/"
+    state: directory
+    mode: "0755"
+
+- name: Add work key to `ssh-agent`
+  environment:
+    USER: "{{ ansible_user_id }}"
+    SSH_AUTH_SOCK: "{{ lookup('env', 'XDG_RUNTIME_DIR') }}/ssh-agent.socket"
+  ansible.builtin.command:
+    cmd: "{{ playbook_dir }}/../roles/clone_work_projects/scripts/add_key.sh github_askia_ssh_ed25519"
+  no_log: true
+
+- name: Clone work projects
+  environment:
+    SSH_AUTH_SOCK: "{{ lookup('env', 'XDG_RUNTIME_DIR') }}/ssh-agent.socket"
+  ansible.builtin.command:
+    cmd: "git clone-worktree {{ item.repo }} /home/{{ ansible_user_id }}/Projects/work/{{ item.name }}/"
+  loop: "{{ work_projects }}"
+
+- name: Remove needed tools
+  become: yes
+  ansible.builtin.package:
+    name:
+      - expect
+    state: absent
