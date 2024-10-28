@@ -1,11 +1,26 @@
 ---
-- name: Ensure ssh and dependencies as installed
+- name: Ensure ssh and dependencies are installed
+  become: yes
+  ansible.builtin.package:
+    name:
+      - which
+    state: present
+
+- name: Ensure ssh and dependencies are installed (RedHat)
   become: yes
   ansible.builtin.package:
     name:
       - openssh-clients
-      - which
     state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure ssh and dependencies are installed (Debian)
+  become: yes
+  ansible.builtin.package:
+    name:
+      - openssh-client
+    state: present
+  when: ansible_os_family == "Debian"
 
 - name: Deploy .ssh directory to user's home
   ansible.builtin.copy:
