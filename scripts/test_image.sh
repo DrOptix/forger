@@ -103,6 +103,7 @@ if $VALID_OS; then
             --env DISPLAY=$DISPLAY \
             --env ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
             --env ANSIBLE_REMOTE_TEMP=/tmp/ansible \
+            --env FORGER_SECRETS_DIR=/etc/forger/secrets/ \
             --volume /tmp/.X11-unix:/tmp/.X11-unix \
             --volume $(realpath "$FORGER_SECRETS_DIR"):/etc/forger/secrets:z,ro \
             --workdir=/home/test \
