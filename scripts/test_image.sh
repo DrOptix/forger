@@ -8,13 +8,16 @@ DOCKERFILES_DIR="$SCRIPT_DIR/../dockerfiles"
 
 # Collect OS types from Dockerfile extensions
 OS_TYPES=()
-for dockerfile in "$DOCKERFILES_DIR"/*; do
-    os_type=$(basename "$dockerfile" | sed "s/Dockerfile\.//")
+for dockerfile in "$DOCKERFILES_DIR"/*.dockerfile; do
+    os_type=$(basename "$dockerfile" | sed "s/.dockerfile//")
     OS_TYPES+=("$os_type")
 done
 
+# Initialize variables
+IMAGE_TAG="$1"
+
 # Check if the first argument is provided
-if [ -z "$1" ]; then
+if [ -z "$IMAGE_TAG" ]; then
     echo "Usage: $0 <os_type>"
     echo "Available OS types:"
     for os_type in "${OS_TYPES[@]}"; do
@@ -23,9 +26,6 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-# Initialize variables
-VERBOSE=false
-IMAGE_TAG=""
 
 # Check if the provided OS type is valid
 VALID_OS=false
@@ -38,7 +38,7 @@ done
 
 # If the OS type is valid, build and run the image using Podman
 if $VALID_OS; then
-    dockerfile="$DOCKERFILES_DIR/Dockerfile.$IMAGE_TAG"
+    dockerfile="$DOCKERFILES_DIR/$IMAGE_TAG.dockerfile"
     
     # Message to display while building
     msg="Building image forger_test:${IMAGE_TAG}:"
