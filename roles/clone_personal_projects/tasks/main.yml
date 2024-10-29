@@ -1,37 +1,16 @@
 ---
-- name: Ensure needed tools are installed
-  become: yes
-  ansible.builtin.package:
-    name:
-      - expect
-    state: present
-
 - name: Ensure personal projects location exists
   ansible.builtin.file:
     path: "/home/{{ ansible_user_id }}/Projects/personal/"
     state: directory
     mode: "0755"
 
-- name: Add personal key to `ssh-agent`
-  environment:
-    USER: "{{ ansible_user_id }}"
-    SSH_AUTH_SOCK: "{{ lookup('env', 'XDG_RUNTIME_DIR') }}/ssh-agent.socket"
-  ansible.builtin.command:
-    cmd: "{{ playbook_dir }}/../roles/clone_personal_projects/scripts/add_key.sh github_droptix_ssh_ed25519"
-  no_log: true
-
 - name: Clone personal projects
   environment:
-    SSH_AUTH_SOCK: "{{ lookup('env', 'XDG_RUNTIME_DIR') }}/ssh-agent.socket"
-  ansible.builtin.command:
-    cmd: "git clone-worktree {{ item.repo }} /home/{{ ansible_user_id }}/Projects/personal/{{ item.name }}/"
+    SSH_AUTH_SOCK: "{{ ssh_auth_sock }}"
+    SSH_AGENT_PID: "{{ ssh_agent_pid }}"
+  ansible.builtin.shell: |
+    git clone-worktree {{ item.repo }} /home/{{ ansible_user_id }}/Projects/personal/{{ item.name }}/
   loop:
-    - { name: "forger", repo: "git@github.com:DrOptix/forger.git" }
-    - { name: "ghost_engine", repo: "git@github.com:DrOptix/GhostEngine.git" }
-
-- name: Remove needed tools
-  become: yes
-  ansible.builtin.package:
-    name:
-      - expect
-    state: absent
+    - { name: "forger", repo: "git@github-droptix:DrOptix/forger.git" }
+    - { name: "ghost_engine", repo: "git@github-droptix:DrOptix/GhostEngine.git" }

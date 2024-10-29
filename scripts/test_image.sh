@@ -65,7 +65,11 @@ if $VALID_OS; then
             --volume $(realpath "$FORGER_SECRETS_DIR"):/etc/forger/secrets:z,ro \
             --workdir=/home/test \
             "forger_test:$IMAGE_TAG" \
-            sudo -E -H -u test /home/test/.forger/scripts/forge_localhost.sh
+            /usr/bin/bash -c "
+                ansible-playbook \
+                    --vault-pass-file=\$FORGER_SECRETS_DIR/ansible_vault.txt \
+                    /home/test/.forger/playbooks/localhost.yml; \
+                exec \"$SHELL\""
 
         # Remove container access to host X11 display
 	    xhost -local:docker > /dev/null 2>&1

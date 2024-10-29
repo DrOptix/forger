@@ -4,6 +4,7 @@
   ansible.builtin.package:
     name:
       - which
+      - expect
     state: present
 
 - name: Ensure ssh and dependencies are installed (RedHat)
@@ -22,13 +23,13 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Deploy .ssh directory to user's home
+- name: Deploy SSH settings to user's home
   ansible.builtin.copy:
     src: ".ssh/"
     dest: "/home/{{ ansible_user_id }}/.ssh"
     backup: yes
 
-- name: Ensure ssh keys have 0600 permissions
+- name: Ensure SSH private keys have 0600 permissions
   ansible.builtin.file:
     path: "{{ item.path }}"
     mode: 0600
@@ -36,7 +37,7 @@
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519" }
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519" }
 
-- name: Ensure public ssh key have 0644 permission
+- name: Ensure SSH public key have 0644 permission
   ansible.builtin.file:
     path: "{{ item.path }}"
     mode: 0644
@@ -46,7 +47,7 @@
       }
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub" }
 
-- name: "Set authorized keys"
+- name: "Set SSH authorized keys"
   authorized_key:
     user: "{{ ansible_user_id }}"
     state: present
@@ -67,50 +68,46 @@
     - { host: "github.com" }
     - { host: "apartment27.home.ro" }
 
-- name: Create user systemd directory
-  ansible.builtin.file:
-    path: "/home/{{ ansible_user_id }}/.config/systemd/user"
-    state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-    mode: "0755"
-
-- name: Deploy user ssh-agent systemd service
+- name: Deploy `ssh_agent.fish` to user's home
   ansible.builtin.copy:
-    src: ".config/systemd/user/ssh-agent.service"
-    dest: "/home/{{ ansible_user_id }}/.config/systemd/user/"
+    src: .config/fish/conf.d/ssh_agent.fish
+    dest: "/home/{{ ansible_user_id }}/.config/fish/conf.d/"
+
+- name: Ensure `ssh_agent.fish` has 0644 permission
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user_id }}/.config/fish/conf.d/ssh_agent.fish"
+    mode: 0644
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
-    mode: "0644"
 
-- name: Enable user systemd service
-  ansible.builtin.command:
-    cmd: "{{ item.cmd }}"
+- name: Start `ssh-agent` and capture the output
+  shell: |
+    eval $(ssh-agent -s -a "/home/{{ ansible_user_id }}/.ssh/ssh_agent.socket")
+    echo SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
+    echo SSH_AGENT_PID="$SSH_AGENT_PID"
+  register: ssh_agent_output
+
+- name: Capture `SSH_AUTH_SOCK`
+  set_fact:
+    ssh_auth_sock: "{{ item.split('=')[1] }}"
+  loop: "{{ ssh_agent_output.stdout_lines }}"
+  when: "'SSH_AUTH_SOCK' in item"
+
+- name: Capture `SSH_AGENT_PID`
+  set_fact:
+    ssh_agent_pid: "{{ item.split('=')[1] }}"
+  loop: "{{ ssh_agent_output.stdout_lines }}"
+  when: "'SSH_AGENT_PID' in item"
+
+- name: Add private keys to `ssh-agent`
+  environment:
+    SSH_AUTH_SOCK: "{{ ssh_auth_sock }}"
+    SSH_AGENT_PID: "{{ ssh_agent_pid }}"
+  shell: |
+    "{{ playbook_dir }}/../roles/setup_ssh/scripts/add_key.sh" {{ item }}
+  args:
+    executable: /usr/bin/bash
   loop:
-    - { cmd: "systemctl --user daemon-reload" }
-    - { cmd: "systemctl --user enable ssh-agent.service" }
-    - { cmd: "systemctl --user start ssh-agent.service" }
-
-- name: Check if fish is installed
-  command: which fish
-  register: fish_check
-  ignore_errors: yes
-  changed_when: false
-
-- name: Ensure fish configuration directory exists
-  ansible.builtin.file:
-    path: "/home/{{ ansible_user_id }}/.config/fish/conf.d"
-    state: directory
-    mode: "0755"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-  when: fish_check.rc == 0
-
-- name: Deploy SSH_AUTH_SOCK script for fish
-  ansible.builtin.copy:
-    src: .config/fish/conf.d/set_ssh_auth_sock.fish
-    dest: /home/{{ ansible_user_id }}/.config/fish/conf.d/set_ssh_auth_sock.fish
-    mode: "0644"
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-  when: fish_check.rc == 0
+    - "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519"
+    - "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519"
+  no_log: true

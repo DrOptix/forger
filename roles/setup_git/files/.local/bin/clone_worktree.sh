@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+env
 
 # Abort at first error
 set -e
