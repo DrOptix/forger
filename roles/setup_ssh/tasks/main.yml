@@ -11,6 +11,7 @@
   become: yes
   ansible.builtin.package:
     name:
+      - openssh
       - openssh-clients
     state: present
   when: ansible_os_family == "RedHat"
@@ -22,6 +23,14 @@
       - openssh-client
     state: present
   when: ansible_os_family == "Debian"
+
+- name: Ensure fish shell is installed (ArchLinux)
+  become: yes
+  ansible.builtin.package:
+    name:
+    - openssh
+    state: present
+  when: ansible_distribution == "Archlinux"
 
 - name: Deploy SSH settings to user's home
   ansible.builtin.copy:
