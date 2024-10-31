@@ -2,8 +2,17 @@
 - name: Ensure fish shell is installed
   become: yes
   ansible.builtin.package:
-    name: fish
+    name:
+    - fish
     state: present
+
+- name: Ensure fish shell is installed (ArchLinux)
+  become: yes
+  ansible.builtin.package:
+    name:
+    - inetutils
+    state: present
+  when: ansible_distribution == "Archlinux"
 
 - name: Make sure fish prompt dependencies are installed (RedHat)
   become: yes
