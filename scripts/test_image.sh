@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Get the directory of the current script
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
@@ -13,17 +13,31 @@ for dockerfile in "$DOCKERFILES_DIR"/*.dockerfile; do
     OS_TYPES+=("$os_type")
 done
 
+# Check if the first argument is '-it'
+INTERACTIVE="$1"
+if [[ "$INTERACTIVE" == "-it" ]]; then
+    exec_shell="exec \"$SHELL\""
+
+    # Remove the '-it' from the argument list
+    shift
+else
+    exec_shell=""
+fi
+
 # Initialize variables
 IMAGE_TAG="$1"
 
 # Check if the first argument is provided
 if [ -z "$IMAGE_TAG" ]; then
-    echo "Usage: $0 <os_type>"
+    echo "Invalid OS type: $IMAGE_TAG"
+    echo "Usage: $0 [-it] <os_type>"
+    echo
+    echo "-it: After Ansible playbook start an interactive shell in the container"
+    echo
     echo "Available OS types:"
     for os_type in "${OS_TYPES[@]}"; do
         echo " - $os_type"
     done
-    exit 1
 fi
 
 
@@ -69,17 +83,23 @@ if $VALID_OS; then
                 ansible-playbook \
                     --vault-pass-file=\$FORGER_SECRETS_DIR/ansible_vault.txt \
                     /home/test/.forger/playbooks/localhost.yml; \
-                exec \"$SHELL\""
+                $exec_shell"
+
+        podman_rc=$?
 
         # Remove container access to host X11 display
 	    xhost -local:docker > /dev/null 2>&1
+        exit $podman_rc
     else
         echo "Failed to build image forger_test:$IMAGE_TAG"
         exit 1
     fi
 else
     echo "Invalid OS type: $IMAGE_TAG"
-    echo "Usage: $0 <os_type>"
+    echo "Usage: $0 [-it] <os_type>"
+    echo
+    echo "-it: After Ansible playbook start an interactive shell in the container"
+    echo
     echo "Available OS types:"
     for os_type in "${OS_TYPES[@]}"; do
         echo " - $os_type"
