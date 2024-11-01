@@ -39,3 +39,6 @@ if [ -f "$ENV_FILE" ]; then
         fi
     done < "$ENV_FILE"
 fi
+
+# Jump ship if we run an interactive shell
+[ -z "$PS1" ] && return
