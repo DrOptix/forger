@@ -40,5 +40,7 @@ if [ -f "$ENV_FILE" ]; then
     done < "$ENV_FILE"
 fi
 
-# Jump ship if we run an interactive shell
+# Jump ship if we run a non-interactive shell
 [ -z "$PS1" ] && return
+
+# Put aliases or other helper for interactive `bash` bellow
