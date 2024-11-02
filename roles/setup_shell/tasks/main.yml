@@ -1,13 +1,13 @@
 ---
 - name: Ensure fish shell is installed
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - fish
     state: present
 
 - name: Ensure fish shell is installed (ArchLinux)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - inetutils
@@ -15,7 +15,7 @@
   when: ansible_distribution == "Archlinux"
 
 - name: Make sure fish prompt dependencies are installed (RedHat)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - xclip
@@ -26,7 +26,7 @@
   when: ansible_os_family == "RedHat"
 
 - name: Make sure fish prompt dependencies are installed (Debian)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - xclip
@@ -37,9 +37,10 @@
   when: ansible_os_family == "Debian"
 
 - name: Change default shell to fish for test user
-  become: yes
-  ansible.builtin.command:
-    cmd: "/usr/bin/chsh --shell /usr/bin/fish {{ ansible_user_id }}"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/fish
 
 - name: Deploy config to user's home directory
   ansible.builtin.copy:
@@ -48,11 +49,8 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
-    backup: yes
+    backup: true
   loop:
     - { src: ".bashrc", dest: "/home/{{ ansible_user_id }}/.bashrc" }
-    - {
-        src: ".bash_profile",
-        dest: "/home/{{ ansible_user_id }}/.bash_profile",
-      }
+    - { src: ".bash_profile", dest: "/home/{{ ansible_user_id }}/.bash_profile", }
     - { src: ".config/", dest: "/home/{{ ansible_user_id }}/.config/" }
