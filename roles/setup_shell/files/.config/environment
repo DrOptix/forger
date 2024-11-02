@@ -1,0 +1,8 @@
+# Environment file used by both `bash` and `fish` to
+# declare environment variables.
+
+# Usually this is not added to PATH, but I want it
+ADD_PATH ~/.local/bin
+
+# Variables
+# VAR MY_AWESOME_VAR "awesome value"

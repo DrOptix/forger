@@ -3,7 +3,7 @@
   hosts: localhost
   roles:
     - system_upgrade
-    - setup_fish_shell
+    - setup_shell
     - setup_ssh
     - setup_git
     - setup_eza
