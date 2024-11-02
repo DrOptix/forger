@@ -28,20 +28,20 @@
     backup: true
 
 - name: Create `tmux` plugin directory
-  file:
+  ansible.builtin.file:
     path: "/home/{{ ansible_user_id }}/.config/tmux/plugins/"
     state: directory
     mode: "0755"
 
 - name: Clone `tmux` plugin manager (`TPM`)
-  git:
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/"
     version: master
     update: true
 
 - name: Start `tmux` session to install plugins
-  shell: |
+  ansible.builtin.shell: |
     `tmux` new-session -d -s setup_tpm
     sleep 1
     `tmux` send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh; `tmux` wait-for -S plugins_installed" C-m
