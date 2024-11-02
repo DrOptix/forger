@@ -1,6 +1,6 @@
 ---
 - name: Ensure tmux and dependencies are installed
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - tmux
@@ -16,7 +16,7 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
-    backup: yes
+    backup: true
 
 - name: Deploy tmux_session_manager to user's home directory
   ansible.builtin.copy:
@@ -25,7 +25,7 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: preserve
-    backup: yes
+    backup: true
 
 - name: Create tmux plugin directory
   file:
@@ -38,7 +38,7 @@
     repo: https://github.com/tmux-plugins/tpm
     dest: "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/"
     version: master
-    update: yes
+    update: true
 
 - name: Start tmux session to install plugins
   shell: |
@@ -49,4 +49,3 @@
     tmux kill-session -t setup_tpm
   args:
     executable: /bin/bash
-
