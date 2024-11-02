@@ -44,3 +44,11 @@ fi
 [ -z "$PS1" ] && return
 
 # Put aliases or other helper for interactive `bash` bellow
+
+# Use `eza` instead of standard `ls`
+alias l="eza"
+alias ls="eza"
+alias ll="eza -lb"
+alias lla="eza -lab"
+alias llt="eza -lab --tree"
+
