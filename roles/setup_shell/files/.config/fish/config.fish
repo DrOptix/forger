@@ -36,6 +36,8 @@ if test -f $ENV_FILE
     end
 end
 
+# Put aliases or other helper for interactive `fish` bellow
+
 abbr -a l 'ls'
 abbr -a ll 'ls -lh'
 abbr -a lla 'ls -lah'
