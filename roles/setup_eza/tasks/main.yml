@@ -21,4 +21,5 @@
   ansible.builtin.template:
     src: merge_fish_config.j2
     dest: "/home/{{ ansible_user_id }}/.config/fish/config.fish"
+    mode: "0644"
   when: existing_config is defined
