@@ -1,15 +1,15 @@
 ---
-- name: Ensure tmux and dependencies are installed
+- name: Ensure `tmux` and dependencies are installed
   become: true
   ansible.builtin.package:
     name:
       - tmux
       - xsel  # For clipboard management
-      - fzf   # For tmux_session_manager.sh
+      - fzf   # For `tmux_session_manager.sh`
       - git   # For cloning the plugins
     state: present
 
-- name: Copy tmux config to user's home directory
+- name: Copy `tmux` config to user's home directory
   ansible.builtin.copy:
     src: ".config/tmux/"
     dest: "/home/{{ ansible_user_id }}/.config/tmux/"
@@ -18,7 +18,7 @@
     mode: preserve
     backup: true
 
-- name: Deploy tmux_session_manager to user's home directory
+- name: Deploy `tmux_session_manager.sh` to user's home directory
   ansible.builtin.copy:
     src: ".local/bin/"
     dest: "/home/{{ ansible_user_id }}/.local/bin/"
@@ -27,25 +27,25 @@
     mode: preserve
     backup: true
 
-- name: Create tmux plugin directory
+- name: Create `tmux` plugin directory
   file:
     path: "/home/{{ ansible_user_id }}/.config/tmux/plugins/"
     state: directory
     mode: "0755"
 
-- name: Clone tmux plugin manager (TPM)
+- name: Clone `tmux` plugin manager (`TPM`)
   git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/"
     version: master
     update: true
 
-- name: Start tmux session to install plugins
+- name: Start `tmux` session to install plugins
   shell: |
-    tmux new-session -d -s setup_tpm
+    `tmux` new-session -d -s setup_tpm
     sleep 1
-    tmux send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh; tmux wait-for -S plugins_installed" C-m
-    tmux wait-for plugins_installed
-    tmux kill-session -t setup_tpm
+    `tmux` send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh; `tmux` wait-for -S plugins_installed" C-m
+    `tmux` wait-for plugins_installed
+    `tmux` kill-session -t setup_tpm
   args:
     executable: /bin/bash
