@@ -1,6 +1,6 @@
 ---
 - name: Ensure eza is installed
-  become: yes
+  become: true
   ansible.builtin.package:
     name: eza
     state: present
@@ -9,17 +9,16 @@
   ansible.builtin.slurp:
     src: "/home/{{ ansible_user_id }}/.config/fish/config.fish"
   register: existing_config
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Read `eza` fish config
   ansible.builtin.slurp:
     src: "{{ playbook_dir }}/../roles/setup_eza/files/.config/fish/config.fish"
   register: new_config
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Merge Fish configurations
   ansible.builtin.template:
     src: merge_fish_config.j2
     dest: "/home/{{ ansible_user_id }}/.config/fish/config.fish"
   when: existing_config is defined
-
