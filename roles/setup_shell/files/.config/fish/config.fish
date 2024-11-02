@@ -38,7 +38,10 @@ end
 
 # Put aliases or other helper for interactive `fish` bellow
 
-abbr -a l 'ls'
-abbr -a ll 'ls -lh'
-abbr -a lla 'ls -lah'
+# Use `eza` instead of standard `ls`
+alias l="eza"
+alias ls="eza"
+alias ll="eza -lb"
+alias lla="eza -lab"
+alias llt="eza -lab --tree"
 

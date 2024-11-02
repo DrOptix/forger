@@ -1,12 +1,13 @@
 ---
-- name: Ensure fish shell is installed
+- name: Ensure shell and tools are installed
   become: true
   ansible.builtin.package:
     name:
       - fish
+      - eza
     state: present
 
-- name: Ensure fish shell is installed (ArchLinux)
+- name: Ensure shell and tools are installed (Archlinux)
   become: true
   ansible.builtin.package:
     name:
@@ -14,7 +15,7 @@
     state: present
   when: ansible_distribution == "Archlinux"
 
-- name: Make sure fish prompt dependencies are installed (RedHat)
+- name: Ensure shell and tools are installed (RedHat)
   become: true
   ansible.builtin.package:
     name:
@@ -25,7 +26,7 @@
     state: present
   when: ansible_os_family == "RedHat"
 
-- name: Make sure fish prompt dependencies are installed (Debian)
+- name: Ensure shell and tools are installed (Debian)
   become: true
   ansible.builtin.package:
     name:
@@ -36,7 +37,7 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Change default shell to fish for test user
+- name: Change default shell to `fish` for test user
   become: true
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
