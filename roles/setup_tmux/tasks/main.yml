@@ -42,10 +42,29 @@
 
 - name: Start `tmux` session to install plugins
   ansible.builtin.shell: |
-    `tmux` new-session -d -s setup_tpm
-    sleep 1
-    `tmux` send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh; `tmux` wait-for -S plugins_installed" C-m
-    `tmux` wait-for plugins_installed
-    `tmux` kill-session -t setup_tpm
+    # Define the path to the plugins directory
+    PLUGINS_DIR="/home/{{ ansible_user_id }}/.config/tmux/plugins"
+    # Initialize directory count
+    DIR_COUNT=0
+    # Loop through directories found in the plugins directory
+    for dir in "$PLUGINS_DIR"/*; do
+        if [ -d "$dir" ]; then
+            DIR_COUNT=$((DIR_COUNT + 1))
+        fi
+    done
+    # Check if there are no plugins installed (only 'tpm' should be present)
+    if [ "$DIR_COUNT" -eq 1 ]; then
+        tmux new-session -d -s setup_tpm
+        sleep 1
+        tmux send-keys -t setup_tpm "$PLUGINS_DIR/tpm/scripts/install_plugins.sh; \
+          tmux wait-for -S plugins_installed" C-m
+        tmux wait-for plugins_installed
+        tmux kill-session -t setup_tpm
+        echo "changed"
+    else
+        echo "unchanged"
+    fi
   args:
     executable: /bin/bash
+  register: tpm_plugins_install
+  changed_when: "'changed' in tpm_plugins_install.stdout"
