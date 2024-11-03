@@ -17,6 +17,9 @@ if [ -f "$ENV_FILE" ]; then
             # Remove quotes if they exist
             path_to_add="${path_to_add//\"/}"
 
+            # Expand variables in the path (like $HOME)
+            path_to_add=$(eval echo "$path_to_add")
+
             # Add to PATH if not already present
             if [[ ":$PATH:" != *":$path_to_add:"* ]]; then
                 export PATH="$path_to_add:$PATH"

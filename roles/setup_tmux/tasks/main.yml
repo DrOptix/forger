@@ -1,52 +1,79 @@
 ---
-- name: Ensure tmux and dependencies are installed
-  become: yes
+- name: Ensure `tmux` and dependencies are installed
+  become: true
   ansible.builtin.package:
     name:
       - tmux
       - xsel  # For clipboard management
-      - fzf   # For tmux_session_manager.sh
+      - fzf   # For `tmux_session_manager.sh`
       - git   # For cloning the plugins
     state: present
 
-- name: Copy tmux config to user's home directory
+- name: Copy `tmux` config to user's home directory
   ansible.builtin.copy:
     src: ".config/tmux/"
     dest: "/home/{{ ansible_user_id }}/.config/tmux/"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
-    mode: preserve
-    backup: yes
+    mode: "0644"
+    backup: true
 
-- name: Deploy tmux_session_manager to user's home directory
+- name: Copy `fish` keybindings config to user's home directory
+  ansible.builtin.copy:
+    src: ".config/fish/"
+    dest: "/home/{{ ansible_user_id }}/.config/fish/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0644"
+    backup: true
+
+- name: Deploy `tmux_session_manager.sh` to user's home directory
   ansible.builtin.copy:
     src: ".local/bin/"
     dest: "/home/{{ ansible_user_id }}/.local/bin/"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
-    mode: preserve
-    backup: yes
+    mode: "0744"
+    backup: true
 
-- name: Create tmux plugin directory
-  file:
+- name: Create `tmux` plugin directory
+  ansible.builtin.file:
     path: "/home/{{ ansible_user_id }}/.config/tmux/plugins/"
     state: directory
     mode: "0755"
 
-- name: Clone tmux plugin manager (TPM)
-  git:
+- name: Clone `tmux` plugin manager (`TPM`)
+  ansible.builtin.git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/"
     version: master
-    update: yes
+    update: true
 
-- name: Start tmux session to install plugins
-  shell: |
-    tmux new-session -d -s setup_tpm
-    sleep 1
-    tmux send-keys -t setup_tpm "/home/{{ ansible_user_id }}/.config/tmux/plugins/tpm/scripts/install_plugins.sh; tmux wait-for -S plugins_installed" C-m
-    tmux wait-for plugins_installed
-    tmux kill-session -t setup_tpm
+- name: Start `tmux` session to install plugins
+  ansible.builtin.shell: |
+    # Define the path to the plugins directory
+    PLUGINS_DIR="/home/{{ ansible_user_id }}/.config/tmux/plugins"
+    # Initialize directory count
+    DIR_COUNT=0
+    # Loop through directories found in the plugins directory
+    for dir in "$PLUGINS_DIR"/*; do
+        if [ -d "$dir" ]; then
+            DIR_COUNT=$((DIR_COUNT + 1))
+        fi
+    done
+    # Check if there are no plugins installed (only 'tpm' should be present)
+    if [ "$DIR_COUNT" -eq 1 ]; then
+        tmux new-session -d -s setup_tpm
+        sleep 1
+        tmux send-keys -t setup_tpm "$PLUGINS_DIR/tpm/scripts/install_plugins.sh; \
+          tmux wait-for -S plugins_installed" C-m
+        tmux wait-for plugins_installed
+        tmux kill-session -t setup_tpm
+        echo "changed"
+    else
+        echo "unchanged"
+    fi
   args:
     executable: /bin/bash
-
+  register: tpm_plugins_install
+  changed_when: "'changed' in tpm_plugins_install.stdout"
