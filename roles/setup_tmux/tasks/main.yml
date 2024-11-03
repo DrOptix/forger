@@ -18,6 +18,15 @@
     mode: "0644"
     backup: true
 
+- name: Copy `fish` keybindings config to user's home directory
+  ansible.builtin.copy:
+    src: ".config/fish/"
+    dest: "/home/{{ ansible_user_id }}/.config/fish/"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "0644"
+    backup: true
+
 - name: Deploy `tmux_session_manager.sh` to user's home directory
   ansible.builtin.copy:
     src: ".local/bin/"
