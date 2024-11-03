@@ -42,7 +42,7 @@
 - name: Ensure SSH private keys have 0600 permissions
   ansible.builtin.file:
     path: "{{ item.path }}"
-    mode: 0600
+    mode: "0600"
   loop:
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519" }
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519" }
@@ -50,7 +50,7 @@
 - name: Ensure SSH public key have 0644 permission
   ansible.builtin.file:
     path: "{{ item.path }}"
-    mode: 0644
+    mode: "0644"
   loop:
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub", }
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub" }
@@ -80,7 +80,7 @@
 - name: Ensure `ssh_agent.fish` has 0644 permission
   ansible.builtin.file:
     path: "/home/{{ ansible_user_id }}/.config/fish/conf.d/ssh_agent.fish"
-    mode: 0644
+    mode: "0644"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
 
