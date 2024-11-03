@@ -113,3 +113,4 @@
     - "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519"
     - "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519"
   no_log: true
+  changed_when: true
