@@ -76,10 +76,6 @@
   ansible.builtin.copy:
     src: .config/fish/conf.d/ssh_agent.fish
     dest: "/home/{{ ansible_user_id }}/.config/fish/conf.d/"
-
-- name: Ensure `ssh_agent.fish` has 0644 permission
-  ansible.builtin.file:
-    path: "/home/{{ ansible_user_id }}/.config/fish/conf.d/ssh_agent.fish"
     mode: "0644"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
