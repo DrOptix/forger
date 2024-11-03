@@ -86,6 +86,8 @@
     echo SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
     echo SSH_AGENT_PID="$SSH_AGENT_PID"
   register: ssh_agent_output
+  changed_when:
+    - ssh_agent_output.rc != 0
 
 - name: Capture `SSH_AUTH_SOCK`
   ansible.builtin.set_fact:
