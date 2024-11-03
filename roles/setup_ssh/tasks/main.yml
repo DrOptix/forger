@@ -28,7 +28,7 @@
   become: true
   ansible.builtin.package:
     name:
-    - openssh
+      - openssh
     state: present
   when: ansible_distribution == "Archlinux"
 
@@ -51,9 +51,7 @@
     path: "{{ item.path }}"
     mode: 0644
   loop:
-    - {
-        path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub",
-      }
+    - { path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub", }
     - { path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub" }
 
 - name: "Set SSH authorized keys"
@@ -62,12 +60,8 @@
     state: present
     key: "{{ item.key }}"
   loop:
-    - {
-        key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub') }}",
-      }
-    - {
-        key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub') }}",
-      }
+    - { key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519.pub') }}", }
+    - { key: "{{ lookup('file', '/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519.pub') }}", }
 
 - name: Add SSH keys for known hosts
   known_hosts:
