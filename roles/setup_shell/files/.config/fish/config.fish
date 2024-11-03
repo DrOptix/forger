@@ -17,7 +17,7 @@ if test -f $ENV_FILE
 
             # Add to PATH if not already present
             if not string match -r ":$PATH:" -- ":$path_to_add:"
-                set -gx PATH "$path_to_add $PATH"
+                set -gx PATH "$path_to_add" $PATH
             end
         end
 
