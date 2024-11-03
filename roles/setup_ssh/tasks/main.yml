@@ -36,6 +36,7 @@
   ansible.builtin.copy:
     src: ".ssh/"
     dest: "/home/{{ ansible_user_id }}/.ssh"
+    mode: "0700"
     backup: true
 
 - name: Ensure SSH private keys have 0600 permissions
