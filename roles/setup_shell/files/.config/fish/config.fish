@@ -12,9 +12,12 @@ if test -f $ENV_FILE
             set path_to_add (string replace -a '"' " " "$path_to_add")
             set path_to_add (string trim "$path_to_add")
 
+            # Expand any variables in the path (like $HOME)
+            set path_to_add (eval echo $path_to_add)
+
             # Add to PATH if not already present
             if not string match -r ":$PATH:" -- ":$path_to_add:"
-                set -gx PATH "$path_to_add:$PATH"
+                set -gx PATH "$path_to_add $PATH"
             end
         end
 
