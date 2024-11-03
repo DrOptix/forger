@@ -1,6 +1,6 @@
 ---
 - name: Ensure ssh and dependencies are installed
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - which
@@ -8,7 +8,7 @@
     state: present
 
 - name: Ensure ssh and dependencies are installed (RedHat)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - openssh
@@ -17,7 +17,7 @@
   when: ansible_os_family == "RedHat"
 
 - name: Ensure ssh and dependencies are installed (Debian)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
       - openssh-client
@@ -25,7 +25,7 @@
   when: ansible_os_family == "Debian"
 
 - name: Ensure fish shell is installed (ArchLinux)
-  become: yes
+  become: true
   ansible.builtin.package:
     name:
     - openssh
@@ -36,7 +36,7 @@
   ansible.builtin.copy:
     src: ".ssh/"
     dest: "/home/{{ ansible_user_id }}/.ssh"
-    backup: yes
+    backup: true
 
 - name: Ensure SSH private keys have 0600 permissions
   ansible.builtin.file:
