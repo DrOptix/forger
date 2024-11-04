@@ -16,7 +16,7 @@ done
 # Check if the first argument is '-it'
 INTERACTIVE="$1"
 if [[ "$INTERACTIVE" == "-it" ]]; then
-    exec_shell="exec \"\$SHELL\""
+    exec_shell="exec \"$SHELL\""
 
     # Remove the '-it' from the argument list
     shift
