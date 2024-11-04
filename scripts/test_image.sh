@@ -16,7 +16,8 @@ done
 # Check if the first argument is '-it'
 INTERACTIVE="$1"
 if [[ "$INTERACTIVE" == "-it" ]]; then
-    exec_shell="exec \"\$SHELL\""
+    exec_shell="user_shell=\$(getent passwd \$(whoami) | cut -d ':' -f 7);exec \"\$user_shell\""
+    echo $exec_shell
 
     # Remove the '-it' from the argument list
     shift

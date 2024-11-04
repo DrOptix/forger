@@ -6,7 +6,6 @@
     - setup_shell
     - setup_ssh
     - setup_git
-    - setup_eza
     - setup_tmux
     - setup_nvim
     - clone_personal_projects
