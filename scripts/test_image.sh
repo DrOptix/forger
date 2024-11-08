@@ -71,20 +71,10 @@ if $VALID_OS; then
         podman run \
             -it \
             --rm \
-            --privileged \
-            --env DISPLAY=$DISPLAY \
-            --env ANSIBLE_CONFIG=/home/test/.forger/ansible.cfg \
-            --env ANSIBLE_REMOTE_TEMP=/tmp/ansible \
-            --env FORGER_SECRETS_DIR=/etc/forger/secrets/ \
+            --env FORGER_SECRETS_DIR=/home/test/.forger_secrets \
             --volume /tmp/.X11-unix:/tmp/.X11-unix \
-            --volume $(realpath "$FORGER_SECRETS_DIR"):/etc/forger/secrets:z,ro \
-            --workdir=/home/test \
+            --volume $(realpath "$FORGER_SECRETS_DIR"):/home/test/.forger_secrets:z,ro \
             "forger_test:$IMAGE_TAG" \
-            /usr/bin/bash -c "
-                ansible-playbook \
-                    --vault-pass-file=\$FORGER_SECRETS_DIR/ansible_vault.txt \
-                    /home/test/.forger/playbooks/localhost.yml; \
-                $exec_shell"
 
         podman_rc=$?
 

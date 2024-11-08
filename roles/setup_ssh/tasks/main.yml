@@ -100,16 +100,21 @@
   loop: "{{ ssh_agent_output.stdout_lines }}"
   when: "'SSH_AGENT_PID' in item"
 
+- name: Include encrypted SSH key passes
+  include_vars: ssh_key_pass.yml
+
 - name: Add private keys to `ssh-agent`
   environment:
     SSH_AUTH_SOCK: "{{ ssh_auth_sock }}"
     SSH_AGENT_PID: "{{ ssh_agent_pid }}"
   ansible.builtin.shell: |
-    "{{ playbook_dir }}/../roles/setup_ssh/scripts/add_key.sh" {{ item }}
+    "{{ playbook_dir }}/../roles/setup_ssh/scripts/add_key.sh" "{{ item.pass }}" "{{ item.key_path }}"
   args:
     executable: /usr/bin/bash
   loop:
-    - "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519"
-    - "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519"
-  no_log: true
+    - key_path: "/home/{{ ansible_user_id }}/.ssh/github_droptix_ssh_ed25519"
+      pass: "{{ setup_ssh_key_droptix_pass }}"
+    - key_path: "/home/{{ ansible_user_id }}/.ssh/github_askia_ssh_ed25519"
+      pass: "{{ setup_ssh_key_askia_pass }}"
   changed_when: true
+  no_log: true
