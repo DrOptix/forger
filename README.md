@@ -1,40 +1,49 @@
 # forger
 
-Ansible based system forger
+Ansible based opinionated system forger
 
-## Testing
+> NOTE: Current branch represents a rewrite of `forger`, other two attempts of
+> rewriting `forger` were made, but were abandoned. With this approach I want to
+> do an incremental rewrite.
 
-### Environment
-- Set `FORGER_SECRETS_DIR` environment variable to a directory where you
-  will have the needed secrets defined.
+This playbook installs and configures most of the software I use on my machine
+mainly for software development, but also daily usage. Because I'm setting stuff
+for both public and private work I'll make use of [`ansible-vault`] to guard
+sensitive informations, but I'll document the format so you can adapt it for
+yourself.
 
-  For example `FORGER_SECRETS_DIR=/tmp/secrets/`.
+## Dependencies
 
-  Define those files in the secrets directory:
+- A Linux machine
+- [Ansible]
 
-  - `ansible_vault.txt` - Key file for Ansible Vault.
-  - `github_droptix_ssh_ed25519.txt` - Key file for personal SSH key.
-  - `github_askia_ssh_ed25519.txt` - Key file for work SSH key.
+## Install
 
-  The secretes diretory will be read-only mounted in the container here:
-  `/etc/forger/secrets/`.
+1. Clone or download this repository to your machine
+2. Install `ansible`
 
-### Using `test_image.sh`
+   2.1 Fedora: `sudo dnf install ansible`
+   2.2 Ubuntu: `sudo apt install ansible`
+   2.3 Windows Subsystem for Linux: `sudo apt install ansible`
 
-To launch a deployment in a test container use `./scripts/test_image.sh`.
+3. Define an environment variable `FORGER_VAULT_KEY` containing the path to the
+   key file used to encrypt and decrypt Ansible vaults
 
-```bash
-./scripts/test_image.sh fedora_41
-```
+4. Run
+   ```sh
+   ansible-playbook ./playbooks/localhost.yml \
+       --ask-become-pass \
+       --vault-pass-file "$FORGER_VAULT_KEY"
+   ```
 
-To see all the available testing targets check:
+[Ansible]: https://docs.ansible.com/ansible/latest/installation_guide/index.html
+[`Ansible Vault`]: https://docs.ansible.com/ansible/latest/cli/ansible-vault.html
 
-```bash
-./scripts/test_image.sh
-```
+## Development
 
-## Notes
+I don't use GitHub issues, Trello or other fancy task tracker, instead, at least
+for now I'm using the `TODO.md` file to keep track of what I'm working on at the
+moment.
 
-Somehow the automated `Lazy sync` run with Ansible is not doing it's thing. At
-least not entirely. I'm still investigating this bastard as I want LSP to work
-out of the box after I deployed the Ansible receipe.
+> TODO: Write more instructions on how to contribute after I figure it out
+> myself
