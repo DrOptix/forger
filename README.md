@@ -2,6 +2,10 @@
 
 Ansible based system forger
 
+> [!IMPORTANT]
+> The `master` branch can be considered to be _archived_, work on a better
+> `forger` takes place on the `forger-ng` branch.
+
 ## Testing
 
 ### Environment
