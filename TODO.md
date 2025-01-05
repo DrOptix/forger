@@ -11,9 +11,10 @@ the things I want to work on at some point. The `Done` section may overlap with
 
 ## In Progress
 
+1. chore(README): Write a better `README` file
+
 ## TODO
 
-1. chore(README): Write a better `README` file
 2. test: Bind mount secrets and don't include in test image
 3. test: Use stable test image and bind mount `forger`
 4. test: Test configuration steps individually
@@ -21,4 +22,3 @@ the things I want to work on at some point. The `Done` section may overlap with
 6. feat(sys): Add role for upgrading the system
 
 ## Done
-
