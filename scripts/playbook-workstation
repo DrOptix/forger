@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# e: Exit at first error
+# u: Treat undefined variables as errors
+set -eu
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+function main() {
+    ansible-playbook \
+        --ask-become-pass \
+        "$SCRIPT_DIR/../playbooks/workstation.yml"
+}
+
+main "$@"

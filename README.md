@@ -32,9 +32,7 @@ yourself.
 
 4. Run
    ```sh
-   ansible-playbook ./playbooks/localhost.yml \
-       --ask-become-pass \
-       --vault-pass-file "$FORGER_VAULT_KEY"
+   ./scripts/playbook-workstation
    ```
 
 ## Development
