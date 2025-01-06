@@ -15,7 +15,7 @@ yourself.
 
 ## Dependencies
 
-- A Linux machine
+- On of the supported OS: Fedora 40, Fedora 41
 - Ansible [^2]
 
 ## Install
