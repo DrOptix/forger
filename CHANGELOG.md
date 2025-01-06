@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ### Added
 
+- playbooks: Playbook for physical machines
 - sys_upgrade: Support system upgrade for Fedora
 
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
