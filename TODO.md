@@ -11,13 +11,14 @@ the things I want to work on at some point. The `Done` section may overlap with
 
 ## In Progress
 
+6. feat(sys): Add role for upgrading the system
+
 ## TODO
 
 2. test: Bind mount secrets and don't include in test image
 3. test: Use stable test image and bind mount `forger`
 4. test: Test configuration steps individually
 5. feat(log): Eliminate sensitive info from logs
-6. feat(sys): Add role for upgrading the system
 
 ## Done
 
