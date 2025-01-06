@@ -1,5 +1,5 @@
 ---
-- name: System upgrade (Fedora)
+- name: System upgrade (Fedora) # noqa: package-latest
   ansible.builtin.dnf:
     name: "*"
     state: latest
