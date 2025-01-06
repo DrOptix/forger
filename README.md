@@ -15,7 +15,7 @@ yourself.
 
 ## Dependencies
 
-- A Linux machine
+- On of the supported OS: Fedora 40, Fedora 41
 - Ansible [^2]
 
 ## Install
@@ -32,9 +32,7 @@ yourself.
 
 4. Run
    ```sh
-   ansible-playbook ./playbooks/localhost.yml \
-       --ask-become-pass \
-       --vault-pass-file "$FORGER_VAULT_KEY"
+   ./scripts/playbook-workstation
    ```
 
 ## Development

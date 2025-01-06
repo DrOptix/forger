@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# e: Exit at first error
+# u: Treat undefined variables as errors
+set -eu
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+FORGER_DIR="$SCRIPT_DIR/../../"
+
+function main() {
+    podman build \
+        -f "$SCRIPT_DIR/Containerfile" \
+        -t "forger_fedora_41" \
+        "$FORGER_DIR"
+
+    podman run -it --rm \
+        --volume "$FORGER_DIR:/root/.forger:z" \
+        "forger_fedora_41:latest"
+}
+
+main "$@"
