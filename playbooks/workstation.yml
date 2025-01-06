@@ -1,5 +1,5 @@
 ---
-- name: Playbook for host machine
+- name: Localhost Workstation
   hosts: localhost
   tasks:
     - name: System Upgrade
