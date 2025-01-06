@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 - playbooks: Playbook for physical machines
 - sys_upgrade: Support system upgrade for Fedora
 - scripts: Script to apply `workstation` playbook
+- test: Add test environment for Fedora 40
 
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
