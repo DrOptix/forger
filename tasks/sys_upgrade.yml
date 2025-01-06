@@ -1,0 +1,7 @@
+---
+- name: System upgrade (Fedora)
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+  become: true
+  when: ansible_distribution == "Fedora"

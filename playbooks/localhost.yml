@@ -1,0 +1,6 @@
+---
+- name: Playbook for host machine
+  hosts: localhost
+  tasks:
+    - name: System Upgrade
+      ansible.builtin.import_tasks: ../tasks/sys_upgrade.yml

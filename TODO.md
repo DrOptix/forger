@@ -11,8 +11,6 @@ the things I want to work on at some point. The `Done` section may overlap with
 
 ## In Progress
 
-6. feat(sys): Add role for upgrading the system
-
 ## TODO
 
 2. test: Bind mount secrets and don't include in test image
@@ -22,5 +20,6 @@ the things I want to work on at some point. The `Done` section may overlap with
 
 ## Done
 
+6. feat(sys): Add role for upgrading the system
 1. chore(README): Write a better `README` file
 7. refactor: Clean slate
