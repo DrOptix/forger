@@ -14,7 +14,9 @@ function main() {
         "$FORGER_DIR"
 
     podman run -it --rm \
+        --env FORGER_SECRETS_DIR=/root/.forger_secrets \
         --volume "$FORGER_DIR:/root/.forger:z" \
+        --volume "$FORGER_SECRETS_DIR:/root/.forger_secrets:ro,z" \
         "forger_fedora_41:latest"
 }
 

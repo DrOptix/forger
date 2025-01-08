@@ -10,9 +10,8 @@ forger_secrets_dir="${FORGER_SECRETS_DIR:-$HOME/.forger_secrets}"
 
 function main() {
     ansible-playbook \
-        --ask-become-pass \
         --vault-pass-file "$forger_secrets_dir/vault.txt" \
-        "$SCRIPT_DIR/../playbooks/workstation.yml"
+        "$SCRIPT_DIR/../playbooks/vault_demo.yml"
 }
 
 main "$@"
