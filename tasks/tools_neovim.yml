@@ -5,6 +5,7 @@
     name:
       - neovim
       - git
+      - unzip
     state: present
 
 - name: Check if old 'neovim' config exists
