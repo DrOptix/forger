@@ -13,9 +13,18 @@ function main() {
         -t "forger_fedora_41" \
         "$FORGER_DIR"
 
+    # NOTE: Don't do `--volume "$FORGER_DIR:/root/.forger:z"`, this willn
+    # simplify this bash script, but also make `.git` availabel in the
+    # container.
     podman run -it --rm \
         --env FORGER_SECRETS_DIR=/root/.forger_secrets \
-        --volume "$FORGER_DIR:/root/.forger:z" \
+        --env PATH="/root/.forger/scripts:$PATH" \
+        --volume "$FORGER_DIR/files:/root/.forger/files:z" \
+        --volume "$FORGER_DIR/playbooks:/root/.forger/playbooks:z" \
+        --volume "$FORGER_DIR/scripts:/root/.forger/scripts:z" \
+        --volume "$FORGER_DIR/tasks:/root/.forger/tasks:z" \
+        --volume "$FORGER_DIR/ansible.cfg:/root/.forger/ansible.cfg:z" \
+        --volume "$FORGER_DIR/inventory:/root/.forger/inventory:z" \
         --volume "$FORGER_SECRETS_DIR:/root/.forger_secrets:ro,z" \
         "forger_fedora_41:latest"
 }
