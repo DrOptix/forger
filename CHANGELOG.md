@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+- tasks: `typewriter` task for installing and configuring `typewriter` neovim
+  configuration.
+
 ### Added
 
 - playbooks: Playbook for physical machines
