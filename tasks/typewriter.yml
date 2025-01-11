@@ -1,0 +1,28 @@
+---
+- name: Install 'neovim' and dependencies
+  become: true
+  ansible.builtin.package:
+    name:
+      - neovim
+      - git
+      - unzip
+    state: present
+
+- name: Check if old 'neovim' config exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.config/.nvim"
+  register: stat_neovim_config_result
+
+- name: Backup existing 'neovim' configuration
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.config/nvim"
+    dest: "{{ ansible_env.HOME }}/.config/nvim.bak"
+    mode: "0600"
+  when: "stat_neovim_config_result.stat.exists"
+
+- name: Clone 'typewriter'
+  ansible.builtin.git:
+    repo: https://github.com/DrOptix/typewriter.git
+    dest: "{{ ansible_env.HOME }}/.config/nvim/"
+    version: "v0.7.0"
+    update: true

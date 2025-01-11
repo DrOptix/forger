@@ -4,3 +4,6 @@
   tasks:
     - name: System Upgrade
       ansible.builtin.import_tasks: ../tasks/sys_upgrade.yml
+
+    - name: Configure 'neovim'
+      ansible.builtin.import_tasks: ../tasks/tools_neovim.yml
