@@ -1,13 +1,4 @@
 ---
-- name: Install 'neovim' and dependencies
-  become: true
-  ansible.builtin.package:
-    name:
-      - neovim
-      - git
-      - unzip
-    state: present
-
 - name: Check if old 'neovim' config exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.config/.nvim"

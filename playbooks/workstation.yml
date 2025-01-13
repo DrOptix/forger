@@ -5,5 +5,8 @@
     - name: System Upgrade
       ansible.builtin.import_tasks: ../tasks/sys_upgrade.yml
 
+    - name: Install system packages
+      ansible.builtin.import_tasks: ../tasks/sys_packages.yml
+
     - name: Configure 'neovim'
       ansible.builtin.import_tasks: ../tasks/typewriter.yml
