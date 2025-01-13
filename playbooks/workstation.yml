@@ -1,10 +1,10 @@
 ---
 - name: Localhost Workstation
   hosts: localhost
-  tasks:
+  pre_tasks:
     - name: System Upgrade
       ansible.builtin.import_tasks: ../tasks/sys_upgrade.yml
-
+  tasks:
     - name: Install system packages
       ansible.builtin.import_tasks: ../tasks/sys_packages.yml
 
