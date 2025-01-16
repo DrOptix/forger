@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 - tasks: `sys_upgrade` task with support for Fedora
 - tasks: `typewriter` task for installing and configuring `typewriter` neovim
   configuration.
+- tasks: `fish` task to configure `fish` shell.
 
 - scripts: Make use of `$FORGER_SECRETS_DIR/vault.txt` as vault pass file
 - scripts: `forger-workstation`, script for applying the `workstation` playbook
