@@ -8,3 +8,4 @@
       - unzip
       - dotnet-sdk-9.0
       - eza
+      - tmux
