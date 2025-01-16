@@ -12,6 +12,13 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 - playbooks: `vault_demo`, a playbook meant as a demo for `ansible-vault` usage
 
 - tasks: `sys_upgrade` task with support for Fedora
+- tasks: `sys_packages` task to install all the required system packages:
+    - fish
+    - neovim
+    - git
+    - unzip
+    - dotnet-sdk-9.0
+    - eza
 - tasks: `typewriter` task for installing and configuring `typewriter` neovim
   configuration.
 - tasks: `fish` task to configure `fish` shell.
