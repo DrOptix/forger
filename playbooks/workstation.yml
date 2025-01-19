@@ -8,8 +8,8 @@
     - name: Install system packages
       ansible.builtin.import_tasks: ../tasks/sys_packages.yml
 
-    - name: Configure `fish`
-      ansible.builtin.import_tasks: ../tasks/fish.yml
+    - name: Setup shell
+      ansible.builtin.import_tasks: ../tasks/shell.yml
 
     - name: Configure `neovim`
       ansible.builtin.import_tasks: ../tasks/typewriter.yml
