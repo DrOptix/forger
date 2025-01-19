@@ -1,4 +1,12 @@
 ---
+- name: "Shell: Install required system packages"
+  ansible.builtin.package:
+    name:
+      - bash
+      - fish
+      - tmux
+    state: present
+
 - name: Change user shell to `fish`
   become: yes
   user:
