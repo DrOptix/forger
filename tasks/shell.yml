@@ -69,7 +69,7 @@
   when: file_stat.stat.exists
   changed_when: false
 
-- name: "Shell: Remove old `.config/fish` backups if more than 3 exist"
+- name: "Shell: Remove old `.config/fish/` backups if more than 3 exist"
   ansible.builtin.file:
     path: "{{ item }}"
     state: absent
@@ -77,3 +77,9 @@
   when:
     - backup_files.stdout_lines is defined
     - backup_files.stdout_lines | length > 3
+
+- name: "Shell: Deploy `.config/fish/` configuration"
+  ansible.builtin.copy:
+    src: "../files/.config/fish/"
+    dest: "{{ ansible_env.HOME }}/.config/fish"
+    mode: preserve
