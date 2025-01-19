@@ -1,6 +1,6 @@
 function fish_prompt
     # Print hour and minutes using the normal color
-    set_color normal
+    set_color brblack
     echo -n "["(date "+%H:%M")"] "
 
     # Print user name using yellow
@@ -16,10 +16,10 @@ function fish_prompt
     echo -n (uname -n)
 
     # Print the base name of $PWD only if we are not in $HOME.
-    # Use the normal color for `:` separator.
+    # Use the brblack color for `:` separator.
     # Use yellow for the $PWD base name
     if [ $PWD != $HOME ]
-        set_color normal
+        set_color brblack
         echo -n ":"
 
         set_color yellow
