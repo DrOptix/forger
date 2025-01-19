@@ -11,9 +11,9 @@ function fish_prompt
     set_color normal
     echo -n "@"
 
-    # Print the host name using blue color
+    # Print the hostname using blue color
     set_color blue
-    echo -n (hostname)
+    echo -n (uname -n)
 
     # Print the base name of $PWD only if we are not in $HOME.
     # Use the normal color for `:` separator.
