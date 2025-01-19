@@ -12,3 +12,37 @@
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
     shell: /usr/bin/fish
+
+- name: "Shell: Get the current timestamp"
+  ansible.builtin.command: date +%Y%m%d%H%M%S
+  register: current_timestamp
+  changed_when: false
+
+- name: "Shell: Check if the original `.bashrc` file exists"
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+  register: file_stat
+
+- name: "Shell: Create backup if the original `.bashrc` exists"
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.bashrc"
+    dest: "{{ ansible_env.HOME }}/.bashrc.{{ current_timestamp.stdout }}.bak"
+    mode: "0600"
+  when: file_stat.stat.exists
+
+- name: "Shell: List existing `.bashrc` backups"
+  ansible.builtin.shell:
+    cmd: |
+      set -euo pipefail
+      find {{ ansible_env.HOME }} -mindepth 1 -maxdepth 1 -name '.bashrc.*.bak' | tac
+    executable: /usr/bin/bash
+  register: backup_files
+  when: file_stat.stat.exists
+  changed_when: false
+
+- name: "Shell: Remove old `.bashrc` backups if more than 3 exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ backup_files.stdout_lines[3:] }}"
+  when: backup_files.stdout_lines | length > 3
