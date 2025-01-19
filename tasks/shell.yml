@@ -7,8 +7,8 @@
       - tmux
     state: present
 
-- name: Change user shell to `fish`
-  become: yes
-  user:
+- name: "Shell: Change user shell to `fish`"
+  become: true
+  ansible.builtin.user:
     name: "{{ ansible_user_id }}"
     shell: /usr/bin/fish
