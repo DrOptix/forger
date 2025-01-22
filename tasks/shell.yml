@@ -47,6 +47,12 @@
   with_items: "{{ backup_files.stdout_lines[3:] }}"
   when: backup_files.stdout_lines | length > 3
 
+- name: "Shell: Deploy `.bashrc` configuration"
+  ansible.builtin.copy:
+    src: "../files/.bashrc"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    mode: preserve
+
 - name: "Shell: Check if the original `.config/fish/` file exists"
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.config/fish/"
