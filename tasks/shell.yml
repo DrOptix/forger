@@ -1,0 +1,26 @@
+---
+- name: "Shell: Install required system packages"
+  ansible.builtin.package:
+    name:
+      - bash
+      - fish
+      - tmux
+    state: present
+
+- name: "Shell: Change user shell to `fish`"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/fish
+
+- name: "Shell: Deploy configuration files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: preserve
+    backup: true
+  loop:
+    - { src: "../files/.bashrc", dest: "{{ ansible_env.HOME }}/.bashrc" }
+    - { src: "../files/.environment", dest: "{{ ansible_env.HOME }}/.environment" }
+    - { src: "../files/.config/fish/", dest: "{{ ansible_env.HOME }}/.config/fish/" }
+    - { src: "../files/.config/tmux/", dest: "{{ ansible_env.HOME }}/.config/tmux/" }

@@ -8,28 +8,66 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ### Added
 
-- playbooks: `workstaion`, a playbook for physical machines
-- playbooks: `vault_demo`, a playbook meant as a demo for `ansible-vault` usage
+- **Playbooks**
 
-- tasks: `sys_upgrade` task with support for Fedora
-- tasks: `sys_packages` task to install all the required system packages:
-    - fish
-    - neovim
-    - git
-    - unzip
-    - dotnet-sdk-9.0
-    - eza
-- tasks: `typewriter` task for installing and configuring `typewriter` neovim
-  configuration.
-- tasks: `fish` task to configure `fish` shell.
+  - `vault_demo` - A playbook demonstrating the usage of `ansible-vault`
+  - `workstation` - A playbook intended for setting up a new host machine by
+    upgrading the system, installing system packages, setting up the shell and
+    `typewriter` Neovim configuration.
 
-- scripts: Make use of `$FORGER_SECRETS_DIR/vault.txt` as vault pass file
-- scripts: `forger-workstation`, script for applying the `workstation` playbook
-- scripts: `forger-demo-vault`, script for applying the `vault_demo` playbook
+- **Tasks**
 
-- test: Add test environment for Fedora 40
-- test: Bind mount all needed files for testing, individually
+  - `sys_upgrade`: A collection of OS specific tasks meant for updating the
+    system to the lates version. Only Fedora is supported at the moment.
+
+  - `sys_packages`: A collection of tasks meant for installing system packages:
+    `neovim`, `git`, `unzip`, `dotnet-sdk-9.0` and `eza`.
+
+  - `shell`: A collection of tasks mean to setup a basic shell environment on
+    a machine. With this the following packages are installed and configured:
+    `bash`, `fish` and `tmux`.
+
+  - `typewriter`: Configure `neovim` using `typewriter` configuration.
+    See: https://github.com/DrOptix/typewriter.git
+
+- **Files**
+
+  - `bash`: Source system wide `bashrc` and the user's `.environment` file
+
+  - `fish`: Source user's `.environment` file.
+  - `fish`: Shell greeter to display OS version, uptime and hostname
+  - `fish`: Custom prompt:
+
+    ```
+    [HH:MM] USER@HOSTNAME:PWD*BASE_NAME (GIT_PROMPT) | _
+    ```
+
+    - `[HH:MM]` is printed using the `normal` terminal color
+    - `USER` is printed using the `yellow` terminal color
+    - `@` is printed using the `normal` terminal color
+    - `HOSTNAME` is printed using `blue` terminal color
+    - `:PWD_BASE_NAME` is printed only when `$PWD != $HOME`
+      - `:` is printed with the `normal` terminal color
+      - `PWD_BASE_NAME` is printed with the `yellow` terminal color
+    - `(GIT_PROMPT)` is printed using the `green` terminal color and is
+      using the `fish` builtin function `__fish_git_prompt` to generate the
+      actual text
+    - `|` is printed using the `red` terminal color
+    - `_` represents where the user will start typing the current command
+
+  - `tmux`: Enable modern terminal colors
+  - `tmux`: Avoid `ESC` delay
+  - `tmux`: Vim key and mouse support
+  - `tmux`: Windows base index starts at 1
+  - `tmux`: Renumber windows when deleting a window
+  - `tmux`: Set history limit to 1000000
+  - `tmux`: Use `Ctrl+a` as prefix
+  - `tmux`: Reload configuration using `Ctrl+a, r`
+  - `tmux`: Split pane vertically with `Ctrl+a, |`
+  - `tmux`: Split pane horizontally with `Ctrl+a, -`
+  - `tmux`: Resize pane with `Ctrl+a, {h, j, k, l}`
 
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [SemVer]: https://semver.org/spec/v2.0.0.html
+
