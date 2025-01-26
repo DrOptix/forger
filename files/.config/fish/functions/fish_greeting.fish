@@ -30,7 +30,7 @@ function fish_greeting
 
     set_color green
     echo -n "$rounded_days days, "
-    echo -n "$rounded_minutes hours, "
+    echo -n "$rounded_hours hours, "
     echo "$rounded_minutes minutes"
 
     # Print hostname
