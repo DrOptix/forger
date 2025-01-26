@@ -90,6 +90,43 @@
     dest: "{{ ansible_env.HOME }}/.config/fish"
     mode: preserve
 
+- name: "Shell: Check if the original `.config/tmux/` file exists"
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.config/tmux/"
+  register: file_stat
+
+- name: "Shell: Create backup if the original `.config/tmux/` exists"
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.config/tmux/"
+    dest: "{{ ansible_env.HOME }}/.config/tmux.{{ current_timestamp.stdout }}.bak/"
+    mode: "0600"
+  when: file_stat.stat.exists
+
+- name: "Shell: List existing `.config/tmux/` backups"
+  ansible.builtin.shell:
+    cmd: |
+      set -euo pipefail
+      find {{ ansible_env.HOME }}/.config/ -mindepth 1 -maxdepth 1 -name 'tmux.*.bak' | tac
+    executable: /usr/bin/bash
+  register: backup_files
+  when: file_stat.stat.exists
+  changed_when: false
+
+- name: "Shell: Remove old `.config/tmux/` backups if more than 3 exist"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items: "{{ backup_files.stdout_lines[3:] }}"
+  when:
+    - backup_files.stdout_lines is defined
+    - backup_files.stdout_lines | length > 3
+
+- name: "Shell: Deploy `.config/tmux/` configuration"
+  ansible.builtin.copy:
+    src: "../files/.config/tmux/"
+    dest: "{{ ansible_env.HOME }}/.config/tmux"
+    mode: preserve
+
 - name: "Shell: Check if the original `.environment` file exists"
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.environment"
