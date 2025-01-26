@@ -21,7 +21,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     system to the lates version. Only Fedora is supported at the moment.
 
   - `sys_packages`: A collection of tasks meant for installing system packages:
-    `neovim`, `git`, `unzip`, `dotnet-sdk-9.0` and `eza`.
+    `neovim`, `git`, `unzip` and `dotnet-sdk-9.0`.
 
   - `shell`: A collection of tasks mean to setup a basic shell environment on
     a machine. With this the following packages are installed and configured:
