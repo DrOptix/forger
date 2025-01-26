@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
   - `shell`: A collection of tasks mean to setup a basic shell environment on
     a machine. With this the following packages are installed and configured:
-    `bash`, `fish` and `tmux`.
+    `bash`, `fish`, `tmux` and `eza`.
 
   - `typewriter`: Configure `neovim` using `typewriter` configuration.
     See: https://github.com/DrOptix/typewriter.git

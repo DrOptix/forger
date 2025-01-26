@@ -5,6 +5,7 @@
       - bash
       - fish
       - tmux
+      - eza
     state: present
 
 - name: "Shell: Change user shell to `fish`"
