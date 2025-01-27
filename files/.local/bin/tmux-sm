@@ -13,7 +13,7 @@ DIRS=(
 if [[ $# -eq 1 ]]; then
     path=$1
 else
-    path=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
+    path=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | fzf)
 fi
 
 if [[ -z $path ]]; then
