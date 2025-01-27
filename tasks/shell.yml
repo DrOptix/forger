@@ -25,3 +25,4 @@
     - { src: "../files/.environment", dest: "{{ ansible_env.HOME }}/.environment" }
     - { src: "../files/.config/fish/", dest: "{{ ansible_env.HOME }}/.config/fish/" }
     - { src: "../files/.config/tmux/", dest: "{{ ansible_env.HOME }}/.config/tmux/" }
+    - { src: "../files/.local/bin/", dest: "{{ ansible_env.HOME }}/.local/bin/" }
