@@ -67,6 +67,11 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
   - `tmux`: Split pane horizontally with `Ctrl+a, -`
   - `tmux`: Resize pane with `Ctrl+a, {h, j, k, l}`
 
+  - `tmux-se`: Simple session manager for `tmux`. Starts a new `tmux` session or
+    switches to an existing `tmux` session in a directory located in one of
+    those locations: `~`, `~/.config/`, `~/Documents/work/` or
+    `~/Documents/github/`
+
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [SemVer]: https://semver.org/spec/v2.0.0.html

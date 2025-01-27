@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# List of folders to search for projects
+DIRS=(
+    ~/
+    ~/.config/
+    ~/Documents/work/
+    ~/Documents/github/
+)
+
+# The `path` of the project can be given as a parameter
+# or it can be selected from a list of project paths
+if [[ $# -eq 1 ]]; then
+    path=$1
+else
+    path=$(find "${DIRS[@]}" -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $path ]]; then
+    exit 0
+fi
+
+name=$(basename $path | tr . _)
+is_tmux_running=$(pgrep tmux)
+
+# If `tmux` is not running then we simply create a session and
+# directly attach to it.
+if [[ -z $TMUX ]] && [[ -z $is_tmux_running ]]; then
+    tmux -u new-session -s $name -c $path
+    exit 0
+fi
+
+# Now we know `tmux` is running.
+#
+# We first check if the session does not exist.
+#
+# If it is missing then we created it detached.
+if ! tmux -u has-session -t $name 2> /dev/null; then
+    tmux -u new-session -ds $name -c $path
+fi
+
+# If we are outside `tmux` we attach to the session,
+# if we are inside `tmux` we just switch to it.
+if [[ -z $TMUX ]]; then
+    tmux -u attach -t $name
+else
+    tmux -u switch-client -t $name
+fi
