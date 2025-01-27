@@ -9,3 +9,5 @@
 # If the value does not contain spaces there is no need to use quotes.
 
 export PATH="$HOME/.local/bin/:$PATH"
+
+export TERM="xterm-256color"
