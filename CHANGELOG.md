@@ -63,6 +63,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
   - `tmux`: Renumber windows when deleting a window
   - `tmux`: Set history limit to 1000000
   - `tmux`: Use `Ctrl+a` as prefix
+  - `tmux`: Launch `tmux-se` using `Ctrl+a, e`
   - `tmux`: Reload configuration using `Ctrl+a, r`
   - `tmux`: Split pane vertically with `Ctrl+a, |`
   - `tmux`: Split pane horizontally with `Ctrl+a, -`
