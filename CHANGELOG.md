@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
   - `fish`: Source user's `.environment` file.
   - `fish`: Shell greeter to display OS version, uptime and hostname
+  - `fish`: Launch `tmux-se` using `Ctrl+e` key binding
   - `fish`: Custom prompt:
 
     ```
