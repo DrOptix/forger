@@ -27,6 +27,9 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     a machine. With this the following packages are installed and configured:
     `bash`, `fish`, `tmux`, `eza`, `fzf`, `procps-ng`.
 
+  - `ssh`: Install `openssh`
+  - `ssh`: Deploy personal and work SSH keys
+
   - `typewriter`: Configure `neovim` using `typewriter` configuration.
     See: https://github.com/DrOptix/typewriter.git
 
@@ -37,6 +40,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
   - `fish`: Source user's `.environment` file.
   - `fish`: Shell greeter to display OS version, uptime and hostname
   - `fish`: Launch `tmux-se` using `Ctrl+e` key binding
+  - `fish`: Initialize `ssh-agent` when `fish` first starts.
   - `fish`: Custom prompt:
 
     ```
@@ -73,6 +77,8 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     switches to an existing `tmux` session in a directory located in one of
     those locations: `~`, `~/.config/`, `~/Documents/work/` or
     `~/Documents/github/`
+
+  - `ssh`: Add work and personal SSH keys for cloning and signing commits
 
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/

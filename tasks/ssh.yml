@@ -1,0 +1,30 @@
+---
+- name: "SSH: Install required system packages"
+  ansible.builtin.package:
+    name:
+      - openssh
+    state: present
+
+- name: "SSH: Ensure `.ssh` directory exists"
+  ansible.builtin.file:
+    dest: "{{ ansible_env.HOME }}/.ssh/"
+    mode: 0700
+    state: directory
+
+- name: "SSH: Deploy private keys"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  loop:
+    - { src: "../files/.ssh/github_personal_ed25519", dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519" }
+    - { src: "../files/.ssh/github_work_ed25519", dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519" }
+
+- name: "SSH: Deploy public keys"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0644
+  loop:
+    - { src: "../files/.ssh/github_personal_ed25519.pub", dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519.pub" }
+    - { src: "../files/.ssh/github_work_ed25519.pub", dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519.pub" }
