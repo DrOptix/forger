@@ -76,6 +76,8 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     those locations: `~`, `~/.config/`, `~/Documents/work/` or
     `~/Documents/github/`
 
+  - `ssh`: Add work and personal SSH keys for cloning and signing commits
+
 [unreleased]: https://github.com/DrOptix/forger/tree/HEAD
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [SemVer]: https://semver.org/spec/v2.0.0.html
