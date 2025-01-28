@@ -1,0 +1,6 @@
+---
+- name: "SSH: Install required system packages"
+  ansible.builtin.package:
+    name:
+      - openssh
+    state: present

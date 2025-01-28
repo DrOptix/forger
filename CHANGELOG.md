@@ -27,6 +27,8 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     a machine. With this the following packages are installed and configured:
     `bash`, `fish`, `tmux`, `eza`, `fzf`, `procps-ng`.
 
+  - `ssh`: Install `openssh`
+
   - `typewriter`: Configure `neovim` using `typewriter` configuration.
     See: https://github.com/DrOptix/typewriter.git
 
