@@ -1,8 +1,0 @@
----
-- name: Install system packages
-  ansible.builtin.package:
-    name:
-      - neovim
-      - git
-      - unzip
-      - dotnet-sdk-9.0
