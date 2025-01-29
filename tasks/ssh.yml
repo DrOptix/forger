@@ -5,11 +5,24 @@
       - openssh
     state: present
 
-- name: "SSH: Ensure `.ssh` directory exists"
+- name: "SSH: Ensure directory exists"
   ansible.builtin.file:
-    dest: "{{ ansible_env.HOME }}/.ssh/"
-    mode: 0700
+    dest: "{{ item.dir_path }}"
+    mode: "{{ item.mode }}"
     state: directory
+  loop:
+    - { dir_path: "{{ ansible_env.HOME }}/.ssh/", mode: "0700" }
+    - { dir_path: "{{ ansible_env.HOME }}/.config/fish/", mode: "0755" }
+    - { dir_path: "{{ ansible_env.HOME }}/.config/fish/conf.d/", mode: "0755" }
+
+- name: "Shell: Deploy configuration files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: preserve
+    backup: true
+  loop:
+    - { src: "../files/.config/fish/conf.d/ssh_agent.fish", dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/ssh_agent.fish" }
 
 - name: "SSH: Deploy private keys"
   ansible.builtin.copy:
