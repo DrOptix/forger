@@ -5,26 +5,50 @@
       - openssh
     state: present
 
-- name: "SSH: Ensure `.ssh` directory exists"
+- name: "SSH: Ensure directory exists"
   ansible.builtin.file:
-    dest: "{{ ansible_env.HOME }}/.ssh/"
-    mode: 0700
+    dest: "{{ item.dir_path }}"
+    mode: "{{ item.mode }}"
     state: directory
+  loop:
+    - dir_path: "{{ ansible_env.HOME }}/.ssh/"
+      mode: 700
+    - dir_path: "{{ ansible_env.HOME }}/.config/fish/"
+      mode: 755
+    - dir_path: "{{ ansible_env.HOME }}/.config/fish/conf.d/"
+      mode: 755
+
+- name: "Shell: Deploy configuration files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    backup: true
+  loop:
+    - src: "../files/.config/fish/conf.d/ssh_agent.fish"
+      dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/ssh_agent.fish"
+      mode: 644
 
 - name: "SSH: Deploy private keys"
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0600
+    mode: "{{ item.mode }}"
   loop:
-    - { src: "../files/.ssh/github_personal_ed25519", dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519" }
-    - { src: "../files/.ssh/github_work_ed25519", dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519" }
+    - src: "../files/.ssh/github_personal_ed25519"
+      dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519"
+      mode: 600
+    - src: "../files/.ssh/github_work_ed25519"
+      dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519"
+      mode: 600
 
 - name: "SSH: Deploy public keys"
   ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: "0644"
   loop:
-    - { src: "../files/.ssh/github_personal_ed25519.pub", dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519.pub" }
-    - { src: "../files/.ssh/github_work_ed25519.pub", dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519.pub" }
+    - src: "../files/.ssh/github_personal_ed25519.pub"
+      dest: "{{ ansible_env.HOME }}/.ssh/github_personal_ed25519.pub"
+    - src: "../files/.ssh/github_work_ed25519.pub"
+      dest: "{{ ansible_env.HOME }}/.ssh/github_work_ed25519.pub"
