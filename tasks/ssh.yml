@@ -1,9 +1,17 @@
 ---
-- name: "SSH: Install required system packages"
+- name: "SSH: Install required system packages (Fedora)"
   ansible.builtin.package:
     name:
       - openssh
     state: present
+  when: ansible_distribution == "Fedora"
+
+- name: "SSH: Install required system packages (Ubuntu)"
+  ansible.builtin.package:
+    name:
+      - openssh-client
+    state: present
+  when: ansible_distribution == "Ubuntu"
 
 - name: "SSH: Ensure directory exists"
   ansible.builtin.file:
