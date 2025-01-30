@@ -1,5 +1,5 @@
 ---
-- name: "Shell: Install required system packages"
+- name: "Shell: Install required system packages (Common)"
   ansible.builtin.package:
     name:
       - bash
@@ -7,8 +7,21 @@
       - tmux
       - eza
       - fzf
+    state: present
+
+- name: "Shell: Install required system packages (Fedora)"
+  ansible.builtin.package:
+    name:
       - procps-ng
     state: present
+  when: ansible_distribution == "Fedora"
+
+- name: "Shell: Install required system packages (Ubuntu)"
+  ansible.builtin.package:
+    name:
+      - procps
+    state: present
+  when: ansible_distribution == "Ubuntu"
 
 - name: "Shell: Change user shell to `fish`"
   become: true
