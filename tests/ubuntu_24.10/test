@@ -10,7 +10,7 @@ FORGER_DIR="$SCRIPT_DIR/../../"
 function main() {
     podman build \
         -f "$SCRIPT_DIR/Containerfile" \
-        -t "forger_fedora_40" \
+        -t "forger_ubuntu_24.10" \
         "$FORGER_DIR"
 
     # NOTE: Don't do `--volume "$FORGER_DIR:/root/.forger:z"`, this willn
@@ -26,7 +26,7 @@ function main() {
         --volume "$FORGER_DIR/ansible.cfg:/root/.forger/ansible.cfg:z" \
         --volume "$FORGER_DIR/inventory:/root/.forger/inventory:z" \
         --volume "$FORGER_SECRETS_DIR:/root/.forger_secrets:ro,z" \
-        "forger_fedora_40:latest"
+        "forger_ubuntu_24.10:latest"
 }
 
 main "$@"

@@ -1,0 +1,9 @@
+FROM registry.fedoraproject.org/fedora:41
+
+# Install `ansible` and other stuff
+RUN dnf -y install \
+        ansible \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
+
+WORKDIR /root/.forger
