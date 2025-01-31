@@ -4,3 +4,25 @@
     name:
       - git
     state: present
+
+- name: "Git: Ensure directory exist"
+  ansible.builtin.file:
+    dest: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/.local/bin/"
+    - "{{ ansible_env.HOME }}/.config/git/"
+
+- name: "Git: Deploy configuration files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: preserve
+    backup: true
+  loop:
+    - src: "../files/.local/bin/git-clone-worktree"
+      dest: "{{ ansible_env.HOME }}/.local/bin/git-clone-worktree"
+
+    - src: "../files/.config/git/config"
+      dest: "{{ ansible_env.HOME }}/.config/git/config"
