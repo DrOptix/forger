@@ -79,6 +79,8 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     `~/Documents/github/`
 
   - `ssh`: Add work and personal SSH keys for cloning and signing commits
+  - `ssh`: Add custom Github aliases to differentiate between work and personal
+    projects
 
 - **Test Containers**
 
