@@ -11,5 +11,8 @@
     - name: Setup SSH
       ansible.builtin.import_tasks: ../tasks/ssh.yml
 
+    - name: Setup Git
+      ansible.builtin.import_tasks: ../tasks/git.yml
+
     - name: Configure `neovim`
       ansible.builtin.import_tasks: ../tasks/typewriter.yml

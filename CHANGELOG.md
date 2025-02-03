@@ -60,6 +60,9 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     - `|` is printed using the `red` terminal color
     - `_` represents where the user will start typing the current command
 
+  - `git`: Custom Git configuration
+  - `git.cw`: Script to clone a repository with worktrees support
+
   - `tmux`: Enable modern terminal colors
   - `tmux`: Avoid `ESC` delay
   - `tmux`: Vim key and mouse support
@@ -79,6 +82,8 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
     `~/Documents/github/`
 
   - `ssh`: Add work and personal SSH keys for cloning and signing commits
+  - `ssh`: Add custom Github aliases to differentiate between work and personal
+    projects. `personal.github.com` and `work.github.com`.
 
 - **Test Containers**
 

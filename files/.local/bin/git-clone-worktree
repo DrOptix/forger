@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Abort at first error
+set -e
+
+url=$1                    # http://example.com/repo.git
+basename=${url##*/}       # repo.git
+name=${2:-${basename%.*}} # repo
+
+mkdir -p $name
+
+pushd $name
+
+# We do a bare clone in `.bare`.
+# This will contain all the git logistical files and configs.
+git clone --bare "$url" .bare
+echo "gitdir: ./.bare" > .git
+
+# Set the `origin` remote so we can fetch remote branches
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+
+# Get all branches
+git fetch origin
+
+# Add the default worktree based on HEAD
+worktree=$(git symbolic-ref HEAD)
+worktree=$(basename $worktree)
+
+git worktree add "$worktree"
+
+# Track remote branch
+pushd "$worktree"
+
+git branch --set-upstream-to="origin/$worktree" "$worktree"
+
+popd
+
+popd
+

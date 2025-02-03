@@ -33,6 +33,9 @@
     mode: "{{ item.mode }}"
     backup: true
   loop:
+    - src: "../files/.ssh/config"
+      dest: "{{ ansible_env.HOME }}/.ssh/config"
+      mode: 644
     - src: "../files/.config/fish/conf.d/ssh_agent.fish"
       dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/ssh_agent.fish"
       mode: 644
