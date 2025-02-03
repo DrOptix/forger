@@ -5,6 +5,9 @@
       - neovim
       - git
       - unzip
+      - cmake
+      - gcc
+      - ripgrep
     state: present
 
 - name: "Typewriter: Check if old `neovim` config exists"
