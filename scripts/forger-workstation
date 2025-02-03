@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# e: Exit at first error
+# u: Treat undefined variables as errors
+set -eu
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+forger_secrets_dir="${FORGER_SECRETS_DIR:-$HOME/.forger_secrets}"
+
+function main() {
+    ansible-playbook \
+        --ask-become-pass \
+        --vault-pass-file "$forger_secrets_dir/vault.txt" \
+        "$SCRIPT_DIR/../playbooks/workstation.yml"
+}
+
+main "$@"

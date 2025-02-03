@@ -1,0 +1,18 @@
+---
+- name: Localhost Workstation
+  hosts: localhost
+  pre_tasks:
+    - name: System Upgrade
+      ansible.builtin.import_tasks: ../tasks/sys_upgrade.yml
+  tasks:
+    - name: Setup shell
+      ansible.builtin.import_tasks: ../tasks/shell.yml
+
+    - name: Setup SSH
+      ansible.builtin.import_tasks: ../tasks/ssh.yml
+
+    - name: Setup Git
+      ansible.builtin.import_tasks: ../tasks/git.yml
+
+    - name: Configure `neovim`
+      ansible.builtin.import_tasks: ../tasks/typewriter.yml

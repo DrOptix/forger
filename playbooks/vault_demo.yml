@@ -1,0 +1,36 @@
+---
+- name: Localhost Workstation
+  hosts: localhost
+  tasks:
+    - name: "Demo: vault file"
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/../files/hello_vault" # noqa: no-relative-paths
+        dest: "/tmp/hello_vault"
+        mode: "0600"
+
+    - name: "Demo: Read file content"
+      ansible.builtin.slurp:
+        src: /tmp/hello_vault
+      register: vault_file_content
+
+    - name: "Demo: Decode file content"
+      ansible.builtin.set_fact:
+        vault_file: "{{ vault_file_content.content | b64decode }}"
+
+    - name: "Demo: vault file"
+      ansible.builtin.debug:
+        msg: "{{ vault_file }}"
+
+    - name: "Demo: inline vault"
+      ansible.builtin.set_fact:
+        inline_vault: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          3935303338366133323137386163363831393466343136666361363962396435303030
+          32353231363139636437333765666534633632646132613364653933610a3361656537
+          3035303833363166623037343533303466323463373861363963363962636261616264
+          3037623032346461336661303230633161363865346236350a34396334616633653161
+          37663961633534646239336632653939653362366163
+
+    - name: "Demo: inline vault"
+      ansible.builtin.debug:
+        msg: "{{ inline_vault }}"

@@ -1,0 +1,13 @@
+# Common environment file for both `bash` and `fish`.
+#
+# Add an environment variable like this:
+#
+# ```shell
+# export MY_VAR="my value"
+# ```
+#
+# If the value does not contain spaces there is no need to use quotes.
+
+export PATH="$HOME/.local/bin/:$PATH"
+
+export TERM="xterm-256color"

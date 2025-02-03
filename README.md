@@ -1,44 +1,49 @@
 # forger
 
-Ansible based system forger
+Ansible based opinionated system forger.
 
-> [!IMPORTANT]
-> The `master` branch can be considered to be _archived_, work on a better
-> `forger` takes place on the `forger-ng` branch.
+This playbook installs and configures most of the software I use on my machine
+mainly for software development, but also daily usage.
 
-## Testing
+Because I'm setting stuff for both public and private work I'll make use of
+`ansible-vault` [^1] to guard sensitive informations, but I'll document the
+format so you can adapt it for yourself.
 
-### Environment
-- Set `FORGER_SECRETS_DIR` environment variable to a directory where you
-  will have the needed secrets defined.
+## Dependencies
 
-  For example `FORGER_SECRETS_DIR=/tmp/secrets/`.
+- On of the supported OS: Fedora 40, Fedora 41, Ubutnu 24.04, Ubutnu 24.10 or
+  Windows Subsystem for Linux. Other operatiing systems may work, but I don't
+  support them, therefore don't file bugs about them.
 
-  Define those files in the secrets directory:
+- Ansible [^2]
 
-  - `ansible_vault.txt` - Key file for Ansible Vault.
-  - `github_droptix_ssh_ed25519.txt` - Key file for personal SSH key.
-  - `github_askia_ssh_ed25519.txt` - Key file for work SSH key.
+## Install
 
-  The secretes diretory will be read-only mounted in the container here:
-  `/etc/forger/secrets/`.
+1. Clone or download this repository to your machine
+2. Install `ansible`
 
-### Using `test_image.sh`
+   - Fedora: `sudo dnf install ansible`
+   - Ubuntu: `sudo apt install ansible`
+   - Windows Subsystem for Linux: `sudo apt install ansible`
 
-To launch a deployment in a test container use `./scripts/test_image.sh`.
+3. Define an environment variable `FORGER_SECRETS_DIR` containing the path to
+   directory where the needed secrets are located:
 
-```bash
-./scripts/test_image.sh fedora_41
-```
+   - `vault.txt`: The key file used to decrypt vaults
 
-To see all the available testing targets check:
+4. Run one of the playbooks
 
-```bash
-./scripts/test_image.sh
-```
+   - `./scripts/playbook-workstation`: Setup the main workstation
+   - `./scripts/forger-demo-vault`: Small demo to showcase how to use vaults
 
-## Notes
+## Development
 
-Somehow the automated `Lazy sync` run with Ansible is not doing it's thing. At
-least not entirely. I'm still investigating this bastard as I want LSP to work
-out of the box after I deployed the Ansible receipe.
+I'm contributing to this project only when I find myself doing something more
+than 3 times. I don't have a particular road map. Currently I'm not accepting
+PRs.
+
+--------------------------------------------------------------------------------
+
+[^1]: https://docs.ansible.com/ansible/latest/cli/ansible-vault.html
+
+[^2]: https://docs.ansible.com/ansible/latest/installation_guide/index.html

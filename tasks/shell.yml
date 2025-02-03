@@ -1,0 +1,69 @@
+---
+- name: "Shell: Install required system packages (Common)"
+  ansible.builtin.package:
+    name:
+      - bash
+      - fish
+      - tmux
+      - eza
+      - fzf
+    state: present
+
+- name: "Shell: Install required system packages (Fedora)"
+  ansible.builtin.package:
+    name:
+      - procps-ng
+    state: present
+  when: ansible_distribution == "Fedora"
+
+- name: "Shell: Install required system packages (Ubuntu)"
+  ansible.builtin.package:
+    name:
+      - procps
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: "Shell: Change user shell to `fish`"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/fish
+
+- name: "Shell: Ensure directory exist"
+  ansible.builtin.file:
+    dest: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ ansible_env.HOME }}/.config/fish/"
+    - "{{ ansible_env.HOME }}/.config/fish/functions/"
+    - "{{ ansible_env.HOME }}/.config/tmux/"
+    - "{{ ansible_env.HOME }}/.local/bin/"
+
+- name: "Shell: Deploy configuration files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: preserve
+    backup: true
+  loop:
+    - src: "../files/.bashrc"
+      dest: "{{ ansible_env.HOME }}/.bashrc"
+
+    - src: "../files/.environment"
+      dest: "{{ ansible_env.HOME }}/.environment"
+
+    - src: "../files/.config/fish/config.fish"
+      dest: "{{ ansible_env.HOME }}/.config/fish/config.fish"
+
+    - src: "../files/.config/fish/functions/fish_prompt.fish"
+      dest: "{{ ansible_env.HOME }}/.config/fish/functions/fish_prompt.fish"
+
+    - src: "../files/.config/fish/functions/fish_greeting.fish"
+      dest: "{{ ansible_env.HOME }}/.config/fish/functions/fish_greeting.fish"
+
+    - src: "../files/.config/tmux/tmux.conf"
+      dest: "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"
+
+    - src: "../files/.local/bin/tmux-sm"
+      dest: "{{ ansible_env.HOME }}/.local/bin/tmux-sm"

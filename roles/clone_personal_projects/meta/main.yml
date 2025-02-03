@@ -1,3 +1,0 @@
-dependencies:
-  - role: setup_ssh
-  - role: setup_git
