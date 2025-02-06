@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 - **Tasks**
 
   - `typewriter`: Give admin rights when installing packages
+  - `typewriter`: Always do a clean checkout of `typewriter`.
 
 ## [v0.1.0] - 2025-02-03
 
