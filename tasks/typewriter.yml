@@ -13,14 +13,14 @@
 
 - name: "Typewriter: Check if old `neovim` config exists"
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.config/.nvim"
+    path: "{{ ansible_env.HOME }}/.config/nvim"
   register: stat_neovim_config_result
 
 - name: "Typewriter: Backup existing `neovim` configuration"
   ansible.builtin.copy:
-    src: "{{ ansible_env.HOME }}/.config/nvim"
-    dest: "{{ ansible_env.HOME }}/.config/nvim.bak"
-    mode: "0600"
+    src:  "{{ ansible_env.HOME }}/.config/nvim/"
+    dest:   "{{ ansible_env.HOME }}/.config/nvim.bak"
+    mode: preserve
   when: "stat_neovim_config_result.stat.exists"
 
 - name: "Typewriter: Clone `typewriter`"

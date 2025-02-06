@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
   - `typewriter`: Give admin rights when installing packages
   - `typewriter`: Always do a clean checkout of `typewriter`.
+  - `typewriter`: Fix backup of old `nvim` directory
 
 ## [v0.1.0] - 2025-02-03
 
