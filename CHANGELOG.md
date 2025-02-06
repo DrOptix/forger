@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+### Fixed
+
+- **Tasks**
+
+  - `typewriter`: Give admin rights when installing packages
+
 ## [v0.1.0] - 2025-02-03
 
 ### Added

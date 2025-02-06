@@ -1,5 +1,6 @@
 ---
 - name: "Typewriter: Install `neovim`, `git`, `unzip`"
+  become: true
   ansible.builtin.package:
     name:
       - neovim
