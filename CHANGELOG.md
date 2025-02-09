@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+### Fixed
+
+- **Files**
+
+  - `tmux`: Fix colors by using `tmux-256color` as terminal type
+
 ## [v0.1.1] - 2025-02-03
 
 ### Fixed
