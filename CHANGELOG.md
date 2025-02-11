@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+### Removed
+
+- **Test Containers**
+
+  - Removed Ubuntu 24.10 test container, focus QA only on Ubuntu LTS / WSL
+
 ## [v0.1.1] - 2025-02-03
 
 ### Fixed
@@ -109,4 +115,3 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 [v0.1.0]: https://github.com/DrOptix/forger/releases/tag/v0.1.0
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [SemVer]: https://semver.org/spec/v2.0.0.html
-
