@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 - **Tasks**
 
   - `typewriter`: Update to version `v0.8.0`
+  - `typewriter`: Build and install `neovim` `v0.10.4` from sources
 
 ### Removed
 
