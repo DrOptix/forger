@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+### Fixes
+
+- **Tasks**
+
+  - `typewriter`: Fix Fedora vs Ubuntu/WSL `treesitter` highlighting issue
+
+### Changes
+
+- **Tasks**
+
+  - `typewriter`: Update to version `v0.8.0`
+  - `typewriter`: Build and install `neovim` `v0.10.4` from sources
+
+### Removed
+
+- **Test Containers**
+
+  - Removed Fedora 40 test container, focus QA only on latest stable release
+  - Removed Ubuntu 24.10 test container, focus QA only on Ubuntu LTS / WSL
+
 ## [v0.1.2] - 2025-02-09
 
 ### Fixed
@@ -118,4 +138,3 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 [v0.1.0]: https://github.com/DrOptix/forger/releases/tag/v0.1.0
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [SemVer]: https://semver.org/spec/v2.0.0.html
-

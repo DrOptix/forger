@@ -1,15 +1,74 @@
 ---
-- name: "Typewriter: Install `neovim`, `git`, `unzip`"
+- name: "Typewriter: Remove `neovim` system package"
   become: true
   ansible.builtin.package:
     name:
       - neovim
+    state: absent
+
+- name: "Typewriter: Install `typewriter` dependencies"
+  become: true
+  ansible.builtin.package:
+    name:
       - git
       - unzip
-      - cmake
-      - gcc
       - ripgrep
     state: present
+  when: ansible_distribution == "Fedora"
+
+- name: "Typewriter: Install `neovim` build dependencies (Fedora)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - git
+      - unzip
+      - ripgrep
+      - ninja-build
+      - cmake
+      - gcc
+      - make
+      - gettext
+      - curl
+      - glibc-gconv-extra
+    state: present
+  when: ansible_distribution == "Fedora"
+
+- name: "Typewriter: Install `neovim` build dependencies (Ubuntu)"
+  become: true
+  ansible.builtin.package:
+    name:
+      - git
+      - unzip
+      - ripgrep
+      - ninja-build
+      - gettext
+      - cmake
+      - curl
+      - build-essential
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: "Typewriter: Clone `neovim` version `v0.10.4`"
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "{{ ansible_env.HOME }}/Documents/github/neovim/"
+    version: "v0.10.4"
+    update: true
+    force: true
+
+- name: "Typewriter: Build `neovim`"
+  ansible.builtin.make:
+    chdir: "{{ ansible_env.HOME }}/Documents/github/neovim/"
+    params:
+      CMAKE_BUILD_TYPE: "RelWithDebInfo"
+
+- name: "Typewriter: Install `neovim`"
+  become: yes
+  ansible.builtin.make:
+    chdir: "{{ ansible_env.HOME }}/Documents/github/neovim/"
+    target: install
+    params:
+      PREFIX: "/usr/local"
 
 - name: "Typewriter: Check if old `neovim` config exists"
   ansible.builtin.stat:
@@ -18,8 +77,8 @@
 
 - name: "Typewriter: Backup existing `neovim` configuration"
   ansible.builtin.copy:
-    src:  "{{ ansible_env.HOME }}/.config/nvim/"
-    dest:   "{{ ansible_env.HOME }}/.config/nvim.bak"
+    src: "{{ ansible_env.HOME }}/.config/nvim/"
+    dest: "{{ ansible_env.HOME }}/.config/nvim.bak"
     mode: preserve
   when: "stat_neovim_config_result.stat.exists"
 
@@ -27,6 +86,6 @@
   ansible.builtin.git:
     repo: https://github.com/DrOptix/typewriter.git
     dest: "{{ ansible_env.HOME }}/.config/nvim/"
-    version: "v0.7.0"
+    version: "v0.8.0"
     update: true
     force: true
