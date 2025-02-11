@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 ## [unreleased]
 
+### Changes
+
+- **Tasks**
+
+  - `typewriter`: Update to version `v0.8.0`
+
 ### Removed
 
 - **Test Containers**

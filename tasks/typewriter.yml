@@ -27,6 +27,6 @@
   ansible.builtin.git:
     repo: https://github.com/DrOptix/typewriter.git
     dest: "{{ ansible_env.HOME }}/.config/nvim/"
-    version: "v0.7.0"
+    version: "v0.8.0"
     update: true
     force: true
