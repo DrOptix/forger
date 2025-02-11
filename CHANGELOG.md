@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog], and this project adheres to [SemVer].
 
 - **Test Containers**
 
+  - Removed Fedora 40 test container, focus QA only on latest stable release
   - Removed Ubuntu 24.10 test container, focus QA only on Ubuntu LTS / WSL
 
 ## [v0.1.1] - 2025-02-03
